@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="2adf718a5b7a4587bca1913066fa316d" Name="Diagram1">
+        <EntityTypeShape EntityType="sieuthiapiModel.ChiTietDonHang" Width="1.5" PointX="10.5" PointY="14" />
+        <EntityTypeShape EntityType="sieuthiapiModel.DonDatHang" Width="1.5" PointX="8.25" PointY="13.625" />
+        <EntityTypeShape EntityType="sieuthiapiModel.GianHang" Width="1.5" PointX="5.25" PointY="9.125" />
+        <EntityTypeShape EntityType="sieuthiapiModel.GianHangChung" Width="1.5" PointX="3" PointY="4.5" />
+        <EntityTypeShape EntityType="sieuthiapiModel.HeThong" Width="1.5" PointX="0.75" PointY="9.75" />
+        <EntityTypeShape EntityType="sieuthiapiModel.MatHang" Width="1.5" PointX="7.5" PointY="8.375" />
+        <EntityTypeShape EntityType="sieuthiapiModel.MatHangChung" Width="1.5" PointX="5.25" PointY="3.75" />
+        <EntityTypeShape EntityType="sieuthiapiModel.SieuThi" Width="1.5" PointX="3" PointY="10.375" />
+        <EntityTypeShape EntityType="sieuthiapiModel.SuKien" Width="1.5" PointX="5.25" PointY="13.125" />
+        <EntityTypeShape EntityType="sieuthiapiModel.SuKienChung" Width="1.5" PointX="3" PointY="16.75" />
+        <EntityTypeShape EntityType="sieuthiapiModel.User" Width="1.5" PointX="6" PointY="17" />
+        <AssociationConnector Association="sieuthiapiModel.FK_ChiTietDonHang_DonDatHang" />
+        <AssociationConnector Association="sieuthiapiModel.FK_DonDatHang_SieuThi" />
+        <AssociationConnector Association="sieuthiapiModel.FK_DonDatHang_User" />
+        <AssociationConnector Association="sieuthiapiModel.FK_GianHang_SieuThi" />
+        <AssociationConnector Association="sieuthiapiModel.FK_MatHang_GianHang" />
+        <AssociationConnector Association="sieuthiapiModel.FK_GianHangChung_HeThong" />
+        <AssociationConnector Association="sieuthiapiModel.FK_MatHangChung_GianHangChung" />
+        <AssociationConnector Association="sieuthiapiModel.FK_SieuThi_HeThong" />
+        <AssociationConnector Association="sieuthiapiModel.FK_SuKienChung_HeThong" />
+        <AssociationConnector Association="sieuthiapiModel.FK_SuKien_SieuThi" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

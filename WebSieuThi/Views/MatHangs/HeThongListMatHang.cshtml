@@ -1,0 +1,364 @@
+﻿@model PagedList.IPagedList<WebSieuThi.Models.MatHangChung>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Danh sách mặt hàng";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section styles {
+    <link href="~/Content/PagedList.css" rel="stylesheet" />
+    <link href="~/Content/admin/vendor/datatable/dataTables.bootstrap.min.css" rel="stylesheet" />
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="page-header">
+            <h3>
+                <i class="fa fa-shopping-basket fa-2x fa-color-red"></i> @ViewBag.Title
+                <a href="/MatHangs/ExportToExcel" class="pull-right">Export to excel</a>
+
+            </h3>
+            <form name="import_form" id="import_form" method="post" action="/MatHangs/ImportToExcel" class="form-inline" enctype="multipart/form-data">
+                <div class="form-group">
+                    <input class="form-control" required type="file" id="fileImport" name="fileImport" />
+                    <button class="btn btn-primary">Import Mặt hàng</button>
+                </div>
+            </form>
+        </div>
+
+        @if (TempData["Updated"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade in" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                @Html.Raw(TempData["Updated"])
+            </div>
+        }
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default box box-primary">
+            <div class="panel-heading">
+                @using (Html.BeginForm("HeThongListMatHang", "MatHangs", FormMethod.Get, new { @class = "form-inline", role = "form", @id = "search-mathang", onsubmit = "return validate()" }))
+                {
+
+                    <div class="form-group">
+                        @Html.TextBox("search", "", new { @class = "form-control", placeholder = "Nhập từ khóa cần tìm" })
+                    </div>
+                    <div class="form-group">
+                        @if (ViewBag.lstgianhang != null)
+                        {
+                            @Html.DropDownList("gianhang", new SelectList(ViewBag.lstgianhang, "Value", "Text"), "-Chọn gian hàng sản phẩm-", new { @class = "form-control width-200" })
+                        }
+                    </div>
+
+                    <div class="form-group">
+                        @if (ViewBag.lstloaihang != null)
+                        {
+                            @Html.DropDownList("loaihang", new SelectList(ViewBag.lstloaihang, "Value", "Text"), "-Chọn loại hình sản phẩm-", new { @class = "form-control width-200" })
+                        }
+                    </div>
+
+                    <div class="form-group">
+                        @if (ViewBag.lsttrangthaihang != null)
+                        {
+                            @Html.DropDownList("trangthai", new SelectList(ViewBag.lsttrangthaihang, "Value", "Text"), "-Chọn trạng thái sản phẩm-", new { @class = "form-control width-200" })
+                        }
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-primary" value="Tìm kiếm" />
+                    </div>
+
+                    @*<div class="list-style-buttons form-group pull-right">
+                            <a href="#" id="list" data-toggle="tooltip" data-placement="bottom" title="Hiện thị kiểu danh sách">
+                                <i class="fa fa-2x fa-list">
+                                </i>
+                            </a>
+                            <a href="#" id="grid" data-toggle="tooltip" data-placement="bottom" title="Hiện thị kiểu bảng">
+                                <i class="fa fa-2x fa-th-large"></i>
+                            </a>
+                        </div>*@
+                }
+
+            </div>
+
+            <script>
+                function validate() {
+                    if (document.getElementById("search").value === "" && document.getElementById("gianhang").value === "" && document.getElementById("loaihang").value === "" && document.getElementById("trangthai").value === "") {
+                        alert("Vui lòng nhập từ khóa tìm kiếm");
+                        return false;
+                    } else {
+                        return true;
+                    };
+
+                }
+
+            </script>
+
+
+
+            <div class="panel-body">
+                @if (Model.Count > 0)
+                {
+                    @*<div id="products" class="row list-group auto-clear">
+                        @foreach (var item in Model)
+                        {
+                        <div class="item col-md-4 grid-group-item">
+                            <div class="thumbnail">
+                                @if (item.AnhDaiDien != null)
+                                    {
+                                    <img class="group list-group-image" src="@item.AnhDaiDien" alt="" />
+                                    }
+                                    else
+                                    {
+                                    <img class="group list-group-image" src="~/Content/img/no-image.png" alt="" />
+                                    }
+                                <div class="caption">
+                                    <h3 class="group inner list-group-item-heading">
+                                        @item.TenMatHang
+                                    </h3>
+                                    <p class="group inner list-group-item-text"><b>Gian hàng: </b>@item.GianHangChung.TenGianHangChung</p>
+                                    <p class="group inner list-group-item-text">
+                                        <b>Loại hàng: </b>
+                                        @if (item.LoaiHang != null)
+                                            {
+                                                if (item.LoaiHang.ToString() == "1")
+                                                {
+                                            <span>Khuyến mại.</span>
+                                                }
+                                                else if (item.LoaiHang.ToString() == "2")
+                                                {
+                                            <span>Hàng mới.</span>
+                                                }
+                                                else if (item.LoaiHang.ToString() == "3")
+                                                {
+                                            <span>Phổ biến.</span>
+                                                }
+                                            }
+                                    </p>
+                                    <p class="group inner list-group-item-text">
+                                        <b>
+                                            Trạng thái:
+                                        </b>
+                                        @if (item.TrangThai == "1")
+                                            {
+                                            <span>Còn hàng.</span>
+                                            }
+                                            else if (item.TrangThai == "2")
+                                            {
+                                            <span>Hết hàng.</span>
+                                            }
+                                            else if (item.TrangThai == "3")
+                                            {
+                                            <span>Sắp về.</span>
+                                            }
+                                    </p>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-md-7">
+                                            <p class="lead">
+                                                @String.Format(System.Globalization.CultureInfo.GetCultureInfo("vi-VN"), "{0:c}", @item.GiaCa)
+                                            </p>
+                                        </div>
+                                        <div class="col-xs-12 col-md-5">
+                                            @Html.RouteLink("Sửa", "HethongEditMHC", new { id = item.MatHangChungId }, htmlAttributes: new { @class = "btn btn-primary" })
+                                            @Html.RouteLink("Xóa", "HethongDeleteMHC", new { id = item.MatHangChungId }, htmlAttributes: new { @class = "btn btn-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        }
+                    </div>*@
+                    
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped table_order_stt" id="table-mathang">
+                            <thead>
+                                <tr>
+                                    <th class="no-sort" style="width: 50px; text-align: center;">STT</th>
+                                    <th>Ảnh mặt hàng</th>
+                                    <th>Tên mặt hàng</th>
+                                    <th>Loại hàng</th>
+                                    <th>Trạng thái</th>
+                                    <th class="no-sort"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{int i = 1;}
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td style="text-align: center;"></td>
+                                        <td>
+                                            @if (item.AnhDaiDien != null)
+                                            {
+                                                <img class="img-100x100" src="@item.AnhDaiDien" alt="" />
+                                            }
+                                            else
+                                            {
+                                                <img class="img-100x100" src="~/Content/img/no-image.png" alt="" />
+                                            }
+                                        </td>
+                                        <td>@item.TenMatHang</td>
+                                        <td>
+                                            @if (item.LoaiHang != null)
+                                            {
+                                                if (item.LoaiHang.ToString() == "1")
+                                                {
+                                                    <span>Khuyến mại.</span>
+                                                }
+                                                else if (item.LoaiHang.ToString() == "2")
+                                                {
+                                                    <span>Hàng mới.</span>
+                                                }
+                                                else if (item.LoaiHang.ToString() == "3")
+                                                {
+                                                    <span>Phổ biến.</span>
+                                                }
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (item.TrangThai == "1")
+                                            {
+                                                <span>Còn hàng.</span>
+                                            }
+                                            else if (item.TrangThai == "2")
+                                            {
+                                                <span>Hết hàng.</span>
+                                            }
+                                            else if (item.TrangThai == "3")
+                                            {
+                                                <span>Sắp về.</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            @Html.RouteLink("Sửa", "HethongEditMHC", new { id = item.MatHangChungId }, htmlAttributes: new { @class = "btn btn-primary" })
+                                            @Html.RouteLink("Xóa", "HethongDeleteMHC", new { id = item.MatHangChungId }, htmlAttributes: new { @class = "btn btn-danger" })
+                                        </td>
+                                    </tr>
+
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="row pull-right">
+                        <div class="col-md-12">
+                            @Html.PagedListPager(Model, page => Url.RouteUrl("HethongListMHC", new { search = ViewBag.search, loaihang = ViewBag.loaihang, trangthai = ViewBag.trangthai, gianhang = ViewBag.gianhang, pg = page }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <span>Không có mặt hàng nào.</span>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (ViewBag.loaihang != null)
+{
+    <script>
+        $('#loaihang').val('@Html.Raw(ViewBag.loaihang)');
+    </script>
+}
+
+@if (ViewBag.gianhang != null)
+{
+    <script>
+        $('#gianhang').val('@Html.Raw(ViewBag.gianhang)');
+    </script>
+}
+
+@if (ViewBag.trangthai != null)
+{
+    <script>
+        $('#trangthai').val('@Html.Raw(ViewBag.trangthai)');
+    </script>
+}
+
+
+
+@section Scripts {
+<script src="~/Content/admin/vendor/datatable/jquery.dataTables.min.js"></script>
+<script src="~/Content/admin/vendor/datatable/dataTables.bootstrap.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#table-mathang').DataTable({
+            paging: false,            
+            "oLanguage": {
+                "sEmptyTable": "Không tìm thấy mặt hàng nào.",
+                "sLoadingRecords": "Vui lòng - chờ...",
+                "sSearch": "Tìm kiếm nhanh: ",
+                "sZeroRecords": "Không tìm thấy mặt hàng nào.",
+                "sInfo": ""
+            },
+            "order": [],
+            columnDefs: [
+                { targets: 'no-sort', orderable: false }
+            ]
+        });
+    });
+</script>
+    <script>
+        //$(document).ready(function () {
+        //    var maxHeight = 0;
+        //    $(".equalize").each(function () {
+        //        if ($(this).height() > maxHeight) { maxHeight = $(this).height(); }
+        //    });
+        //    $(".equalize").height(maxHeight);
+        //});
+
+        //$(document).ready(function () {
+        //    $('#list').click(function (event) {
+        //        event.preventDefault();
+        //        $('#products .item').addClass('list-group-item').removeClass('grid-group-item');
+        //    });
+        //    $('#grid').click(function (event) {
+        //        event.preventDefault();
+        //        $('#products .item').removeClass('list-group-item').addClass('grid-group-item');
+        //    });
+        //});
+
+        $('#gianhang').on('change', function () {
+            if ($(this).val() !== "") {
+                $('#search-mathang').submit();
+            }
+        })
+
+        $('#trangthai').on('change', function () {
+            if ($(this).val() !== "") {
+                $('#search-mathang').submit();
+            }
+        })
+
+        $('#loaihang').on('change', function () {
+            if ($(this).val() !== "") {
+                $('#search-mathang').submit();
+            }
+        })
+
+        function addClearFilter() {
+            $('#search-mathang').append('<a href="#" id="clearFilter">Xóa bộ lọc</a>');
+
+            $('#clearFilter').on('click', function () {
+                window.location.href = "/admin/hethong/dsmathang";
+            })
+        }
+    </script>
+
+
+    @if (ViewBag.search != null || ViewBag.loaihang != null || ViewBag.gianhang != null || ViewBag.trangthai != null)
+    {
+        <script>
+            addClearFilter();
+        </script>
+    }
+}

@@ -1,0 +1,270 @@
+﻿@model WebSieuThi.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Hệ thống siêu thị vui lòng tạo tài khoản tại đây";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section styles {
+    @Styles.Render("~/Content/dropzonescss")
+}
+
+<style>
+	.btn-primary:hover {
+		background-color: #116f01!important;
+	}
+</style>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="page-header" style="border-color: #148c00;">
+            <h3>@ViewBag.Title</h3>
+        </div>
+
+        @if (TempData["Updated"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade in" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                @Html.Raw(TempData["Updated"])
+            </div>
+        }
+
+        @if (TempData["Error"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade in" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                @Html.Raw(TempData["Error"])
+            </div>
+        }
+
+        @using (Html.BeginForm("Register", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.TenHeThong, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.TenHeThong, new { @class = "form-control", placeholder = "Nhập tên hệ thống siêu thị" })
+                    @Html.ValidationMessageFor(m => m.TenHeThong, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.SDT, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.SDT, new { @class = "form-control", placeholder = "Nhập số điện thoại liên lạc hệ thống siêu thị" })
+                    @Html.ValidationMessageFor(m => m.SDT, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.LoaiHinhKD, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @if (ViewBag.lstLoaiHinhKinhDoanh != null)
+                    {
+                        @Html.DropDownListFor(m => m.LoaiHinhKD, new SelectList(ViewBag.lstLoaiHinhKinhDoanh, "Value", "Text"), "-Chọn loại hình kinh doanh hệ thống siêu thị-", new { @class = "form-control" })
+                    }
+                    @Html.ValidationMessageFor(m => m.LoaiHinhKD, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Nhập địa chỉ email" })
+                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Pass, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.PasswordFor(m => m.Pass, new { @class = "form-control", placeholder = "Nhập mật khẩu" })
+                    @Html.ValidationMessageFor(m => m.Pass, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "Nhập lại mật khẩu" })
+                    @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Country, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Country, new { @class = "form-control", placeholder = "Địa chỉ quốc gia" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.AnhIcon, new { @class = "col-md-2 control-label" })
+                <div class="col-md-4">
+                    
+                    <div id="anhhethong" class="upanh">
+                        @Html.HiddenFor(m => m.AnhIcon)
+                        <a class="closed"><i class="fa fa-close fa-2x"></i></a>
+                        <i class="fa fa-plus fa-3x"></i>
+                    </div>
+                    <div id="dZUpload1" class="dropzone" style="display: none;">
+                        <div class="dz-default dz-message" data-dz-message>
+                            <span>Chọn ảnh hiện thị hệ thống siêu thị</span>
+                        </div>
+                    </div>
+                </div>
+
+		@Html.LabelFor(m => m.Picture_GP_KD, new { @class = "col-md-2 control-label" })
+                <div class="col-md-4">
+                    
+                    <div id="anhgiayphep" class="upanh">
+                        @Html.HiddenFor(m => m.Picture_GP_KD)
+                        <a class="closed"><i class="fa fa-close fa-2x"></i></a>
+                        <i class="fa fa-plus fa-3x"></i>
+                    </div>
+                    @Html.ValidationMessageFor(m => m.Picture_GP_KD, "", new { @class = "text-danger" })
+                    <div id="dZUpload2" class="dropzone" style="display: none;">
+                        <div class="dz-default dz-message" data-dz-message>
+                            <span>Chọn ảnh giấy phép kinh doanh hệ thống siêu thị</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <button class="btn btn-primary" style="background-color: #148c00; border-color: #116f01;"><i class="fa fa-sign-in"></i> Đăng ký</button>
+                </div>
+            </div>
+
+        }
+
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/dropzonescripts")
+    <script type="text/javascript">
+        $.validator.setDefaults({
+            ignore: ""
+        });
+
+
+        $(document).ready(function () {
+
+            $('.closed').click(function (e) {
+                e.preventDefault();
+                if ($(this).siblings('input').val() !== "") {
+                    if (confirm("Bạn chắc chắn muốn xóa ảnh?")) {
+                        $(this).parent('.upanh').css('background-image', 'url("/Content/img/no-image.png")');
+                        $(this).siblings('input').val('');
+                    }
+                }
+            })
+
+            Dropzone.autoDiscover = false;
+            var myDropzone = new Dropzone("div#dZUpload1", {
+                url: "/Account/SaveAnhLocal",
+                addRemoveLinks: true,
+                maxFiles: 1,
+                maxFilesize: 10,
+                uploadMultiple: true,
+                acceptedFiles: "image/*",
+                clickable: '#anhhethong>i',
+                dictFallbackMessage: "Trình duyệt của bạn không hỗ trợ kéo thả tệp để tải lên.",
+                dictFallbackText: "Please use the fallback form below to upload your files like in the olden days.",
+                dictFileTooBig: "Tệp có dung lượng quá lớn ({{filesize}}MiB). Dung lượng cho phép: {{maxFilesize}}MiB.",
+                dictInvalidFileType: "Tệp bạn chọn không được phép tải lên.",
+                dictResponseError: "Server responded with {{statusCode}} code.",
+                dictCancelUpload: "Hủy tải lên",
+                dictCancelUploadConfirmation: "Bạn chắc chắn muốn hủy tải lên?",
+                dictRemoveFile: "Loại bỏ tệp tin",
+                dictMaxFilesExceeded: "Bạn không thể tải lên nhiều tệp.",
+                success: function (file, response) {
+                    var imgPath = response.Message;
+                    if (imgPath !== "") {
+                        $('#AnhIcon').val(imgPath);
+                        $('#anhhethong').css('background-image', 'url("' + imgPath + '")');
+                        //file.previewElement.classList.add("dz-success");
+                    }
+                    this.removeFile(file);
+                },
+                init: function () {
+                    this.on("thumbnail", function (file) {
+                        $('#anhhethong').append('<div class="loaded">' +
+                                   '<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>' +
+                               '</div>');
+                    })
+                },
+                complete: function () {
+                    $('#anhhethong').children('.loaded').remove();
+                },
+                error: function (file, response) {
+                    //file.previewElement.classList.add("dz-error");
+                    //$(file.previewElement).find('.dz-error-message').text(response);
+                    alert(response);
+                    this.removeFile(file);
+                },
+                HiddenFilesPath: 'body'
+
+            });
+
+
+
+            $("#dZUpload2").dropzone({
+                url: "/Account/SaveAnhLocal",
+                addRemoveLinks: true,
+                maxFiles: 1,
+                maxFilesize: 10,
+                uploadMultiple: true,
+                acceptedFiles: "image/*",
+                clickable: '#anhgiayphep>i',
+                dictFallbackMessage: "Trình duyệt của bạn không hỗ trợ kéo thả tệp để tải lên.",
+                dictFallbackText: "Please use the fallback form below to upload your files like in the olden days.",
+                dictFileTooBig: "Tệp có dung lượng quá lớn ({{filesize}}MiB). Dung lượng cho phép: {{maxFilesize}}MiB.",
+                dictInvalidFileType: "Tệp bạn chọn không được phép tải lên.",
+                dictResponseError: "Server responded with {{statusCode}} code.",
+                dictCancelUpload: "Hủy tải lên",
+                dictCancelUploadConfirmation: "Bạn chắc chắn muốn hủy tải lên?",
+                dictRemoveFile: "Loại bỏ tệp tin",
+                dictMaxFilesExceeded: "Bạn không thể tải lên nhiều tệp.",
+                success: function (file, response) {
+                    var imgPath = response.Message;
+                    if (imgPath !== "") {
+                        $('#Picture_GP_KD').val(imgPath);
+                        $('#anhgiayphep').css('background-image', 'url("' + imgPath + '")')
+                        //file.previewElement.classList.add("dz-success");
+                    }
+                    this.removeFile(file);
+                },
+                init: function () {
+                    this.on("thumbnail", function (file) {
+                        $('#anhgiayphep').append('<div class="loaded">' +
+                                   '<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>' +
+                               '</div>');
+                    })
+                },
+                complete: function () {
+                    $('#anhgiayphep').children('.loaded').remove();
+                },
+                error: function (file, response) {
+                    //file.previewElement.classList.add("dz-error");
+                    //$(file.previewElement).find('.dz-error-message').text(response);
+                    alert(response);
+                    this.removeFile(file);
+                },
+                HiddenFilesPath: 'body'
+            });
+        });
+
+
+    </script>
+
+
+}

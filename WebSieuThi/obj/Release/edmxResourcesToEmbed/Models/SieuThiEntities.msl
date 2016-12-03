@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="sieuthiapiModelStoreContainer" CdmEntityContainer="sieuthiapiEntities">
+    <EntitySetMapping Name="ChiTietDonHangs">
+      <EntityTypeMapping TypeName="sieuthiapiModel.ChiTietDonHang">
+        <MappingFragment StoreEntitySet="ChiTietDonHang">
+          <ScalarProperty Name="DonHangId" ColumnName="DonHangId" />
+          <ScalarProperty Name="SoLuong" ColumnName="SoLuong" />
+          <ScalarProperty Name="GiaCa" ColumnName="GiaCa" />
+          <ScalarProperty Name="TenMatHang" ColumnName="TenMatHang" />
+          <ScalarProperty Name="MaMatHang" ColumnName="MaMatHang" />
+          <ScalarProperty Name="IdChiTiet" ColumnName="IdChiTiet" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DonDatHangs">
+      <EntityTypeMapping TypeName="sieuthiapiModel.DonDatHang">
+        <MappingFragment StoreEntitySet="DonDatHang">
+          <ScalarProperty Name="TongCong" ColumnName="TongCong" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="SDT" ColumnName="SDT" />
+          <ScalarProperty Name="DiaChi" ColumnName="DiaChi" />
+          <ScalarProperty Name="HoTen" ColumnName="HoTen" />
+          <ScalarProperty Name="SieuThiId" ColumnName="SieuThiId" />
+          <ScalarProperty Name="MaUser" ColumnName="MaUser" />
+          <ScalarProperty Name="DonHangId" ColumnName="DonHangId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GianHangs">
+      <EntityTypeMapping TypeName="sieuthiapiModel.GianHang">
+        <MappingFragment StoreEntitySet="GianHang">
+          <ScalarProperty Name="AnhGianHang" ColumnName="AnhGianHang" />
+          <ScalarProperty Name="SieuThiId" ColumnName="SieuThiId" />
+          <ScalarProperty Name="TenGianHang" ColumnName="TenGianHang" />
+          <ScalarProperty Name="MaGianHang" ColumnName="MaGianHang" />
+          <ScalarProperty Name="GianHangId" ColumnName="GianHangId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GianHangChungs">
+      <EntityTypeMapping TypeName="sieuthiapiModel.GianHangChung">
+        <MappingFragment StoreEntitySet="GianHangChung">
+          <ScalarProperty Name="AnhGianHang" ColumnName="AnhGianHang" />
+          <ScalarProperty Name="HeThongId" ColumnName="HeThongId" />
+          <ScalarProperty Name="TenGianHangChung" ColumnName="TenGianHangChung" />
+          <ScalarProperty Name="MaGianHangChung" ColumnName="MaGianHangChung" />
+          <ScalarProperty Name="GianHangChungId" ColumnName="GianHangChungId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HeThongs">
+      <EntityTypeMapping TypeName="sieuthiapiModel.HeThong">
+        <MappingFragment StoreEntitySet="HeThong">
+          <ScalarProperty Name="SoLuotSukien" ColumnName="SoLuotSukien" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="Actived" ColumnName="Actived" />
+          <ScalarProperty Name="AnhIcon" ColumnName="AnhIcon" />
+          <ScalarProperty Name="Picture_GP_KD" ColumnName="Picture_GP_KD" />
+          <ScalarProperty Name="Pass" ColumnName="Pass" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="SDT" ColumnName="SDT" />
+          <ScalarProperty Name="Country" ColumnName="Country" />
+          <ScalarProperty Name="LoaiHinhKD" ColumnName="LoaiHinhKD" />
+          <ScalarProperty Name="TenHeThong" ColumnName="TenHeThong" />
+          <ScalarProperty Name="HeThongId" ColumnName="HeThongId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MatHangs">
+      <EntityTypeMapping TypeName="sieuthiapiModel.MatHang">
+        <MappingFragment StoreEntitySet="MatHang">
+          <ScalarProperty Name="GianHangId" ColumnName="GianHangId" />
+          <ScalarProperty Name="MaGianHang" ColumnName="MaGianHang" />
+          <ScalarProperty Name="PhanTramKM" ColumnName="PhanTramKM" />
+          <ScalarProperty Name="LoaiHang" ColumnName="LoaiHang" />
+          <ScalarProperty Name="TrangThai" ColumnName="TrangThai" />
+          <ScalarProperty Name="GiaCa" ColumnName="GiaCa" />
+          <ScalarProperty Name="NgayKTKM" ColumnName="NgayKTKM" />
+          <ScalarProperty Name="NgayBDKM" ColumnName="NgayBDKM" />
+          <ScalarProperty Name="MoTa" ColumnName="MoTa" />
+          <ScalarProperty Name="DSHinhAnh" ColumnName="DSHinhAnh" />
+          <ScalarProperty Name="AnhDaiDien" ColumnName="AnhDaiDien" />
+          <ScalarProperty Name="TenMatHang" ColumnName="TenMatHang" />
+          <ScalarProperty Name="MaMatHang" ColumnName="MaMatHang" />
+          <ScalarProperty Name="MatHangId" ColumnName="MatHangId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MatHangChungs">
+      <EntityTypeMapping TypeName="sieuthiapiModel.MatHangChung">
+        <MappingFragment StoreEntitySet="MatHangChung">
+          <ScalarProperty Name="GianHangChungId" ColumnName="GianHangChungId" />
+          <ScalarProperty Name="MaGianHangChung" ColumnName="MaGianHangChung" />
+          <ScalarProperty Name="PhanTramKM" ColumnName="PhanTramKM" />
+          <ScalarProperty Name="LoaiHang" ColumnName="LoaiHang" />
+          <ScalarProperty Name="TrangThai" ColumnName="TrangThai" />
+          <ScalarProperty Name="GiaCa" ColumnName="GiaCa" />
+          <ScalarProperty Name="NgayKTKM" ColumnName="NgayKTKM" />
+          <ScalarProperty Name="NgayBDKM" ColumnName="NgayBDKM" />
+          <ScalarProperty Name="MoTa" ColumnName="MoTa" />
+          <ScalarProperty Name="DSHinhAnh" ColumnName="DSHinhAnh" />
+          <ScalarProperty Name="AnhDaiDien" ColumnName="AnhDaiDien" />
+          <ScalarProperty Name="TenMatHang" ColumnName="TenMatHang" />
+          <ScalarProperty Name="MaMatHangChung" ColumnName="MaMatHangChung" />
+          <ScalarProperty Name="MatHangChungId" ColumnName="MatHangChungId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SieuThis">
+      <EntityTypeMapping TypeName="sieuthiapiModel.SieuThi">
+        <MappingFragment StoreEntitySet="SieuThi">
+          <ScalarProperty Name="GioMoCua" ColumnName="GioMoCua" />
+          <ScalarProperty Name="pass" ColumnName="pass" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="longlat" ColumnName="longlat" />
+          <ScalarProperty Name="HeThongId" ColumnName="HeThongId" />
+          <ScalarProperty Name="CuocPhiVC" ColumnName="CuocPhiVC" />
+          <ScalarProperty Name="DienThoai" ColumnName="DienThoai" />
+          <ScalarProperty Name="DiaChi" ColumnName="DiaChi" />
+          <ScalarProperty Name="TenSieuThi" ColumnName="TenSieuThi" />
+          <ScalarProperty Name="SieuThiId" ColumnName="SieuThiId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SuKiens">
+      <EntityTypeMapping TypeName="sieuthiapiModel.SuKien">
+        <MappingFragment StoreEntitySet="SuKien">
+          <ScalarProperty Name="NgayKT" ColumnName="NgayKT" />
+          <ScalarProperty Name="NgayBD" ColumnName="NgayBD" />
+          <ScalarProperty Name="DaThongBao" ColumnName="DaThongBao" />
+          <ScalarProperty Name="NgayTao" ColumnName="NgayTao" />
+          <ScalarProperty Name="TDSuKien" ColumnName="TDSuKien" />
+          <ScalarProperty Name="SieuThiId" ColumnName="SieuThiId" />
+          <ScalarProperty Name="NDSuKien" ColumnName="NDSuKien" />
+          <ScalarProperty Name="DsAnh" ColumnName="DsAnh" />
+          <ScalarProperty Name="SuKienId" ColumnName="SuKienId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SuKienChungs">
+      <EntityTypeMapping TypeName="sieuthiapiModel.SuKienChung">
+        <MappingFragment StoreEntitySet="SuKienChung">
+          <ScalarProperty Name="NgatKT" ColumnName="NgatKT" />
+          <ScalarProperty Name="NgayBD" ColumnName="NgayBD" />
+          <ScalarProperty Name="DaThongBao" ColumnName="DaThongBao" />
+          <ScalarProperty Name="NgayTao" ColumnName="NgayTao" />
+          <ScalarProperty Name="TDSuKien" ColumnName="TDSuKien" />
+          <ScalarProperty Name="HeThongId" ColumnName="HeThongId" />
+          <ScalarProperty Name="NDSuKien" ColumnName="NDSuKien" />
+          <ScalarProperty Name="DsAnh" ColumnName="DsAnh" />
+          <ScalarProperty Name="SuKienChungId" ColumnName="SuKienChungId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="sieuthiapiModel.User">
+        <MappingFragment StoreEntitySet="User">
+          <ScalarProperty Name="DSMatHangUaThich" ColumnName="DSMatHangUaThich" />
+          <ScalarProperty Name="DSSieuThiThongBao" ColumnName="DSSieuThiThongBao" />
+          <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
+          <ScalarProperty Name="RegId" ColumnName="RegId" />
+          <ScalarProperty Name="UserEmail" ColumnName="UserEmail" />
+          <ScalarProperty Name="MaUser" ColumnName="MaUser" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

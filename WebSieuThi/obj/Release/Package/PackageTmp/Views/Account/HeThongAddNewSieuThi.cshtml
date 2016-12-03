@@ -1,0 +1,214 @@
+﻿@model WebSieuThi.Models.NewSieuThiModel
+@{
+    ViewBag.Title = "Thêm mới siêu thị";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="page-header">
+            <h3><i class="fa fa-user fa-2x fa-color-red"></i> @ViewBag.Title</h3>
+        </div>
+
+        @if (TempData["Updated"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade in" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                @Html.Raw(TempData["Updated"])
+            </div>
+        }
+
+        @if (TempData["Error"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade in" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                @Html.Raw(TempData["Error"])
+            </div>
+        }
+    </div>
+
+    <!-- /.col-lg-12 -->
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default box box-primary">
+            <div class="panel-body">
+
+                @using (Html.BeginForm("HeThongAddNewSieuThi", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form", @id = "HeThongAddNewSieuThi" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.TenSieuThi, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(m => m.TenSieuThi, new { @class = "form-control", placeholder = "Tên siêu thị" })
+                            @Html.ValidationMessageFor(m => m.TenSieuThi, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.DiaChi, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.HiddenFor(m => m.longlat)
+                            @Html.TextBoxFor(m => m.DiaChi, new { @class = "form-control", placeholder = "Địa chỉ" })
+                            @Html.ValidationMessageFor(m => m.DiaChi, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.DienThoai, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(m => m.DienThoai, new { @class = "form-control", placeholder = "Số điện thoại" })
+                            @Html.ValidationMessageFor(m => m.DienThoai, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Địa chỉ email" })
+                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Pass, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.PasswordFor(m => m.Pass, new { @class = "form-control", placeholder = "Nhập mật khẩu" })
+                            @Html.ValidationMessageFor(m => m.Pass, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "Nhập lại mật khẩu" })
+                            @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.CuocPhiVC, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(m => m.CuocPhiVC, new { @class = "form-control", placeholder = "Cước phí vận chuyển" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.GioMoCua, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(m => m.GioMoCua, new { @class = "form-control", placeholder = "Giờ mở cửa" })
+                        </div>
+                    </div>
+
+                    
+                    
+                    <div class="form-group">
+                        @Html.ValidationMessageFor(m => m.longlat, "", new { @class = "text-danger" })
+                        <div class="col-md-offset-2 col-md-10">
+                            
+                            <div id="map" style="height: 500px;"></div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" class="btn btn-primary" value="Thêm mới siêu thị" />
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        var myLatlng = { lat: 21.028667, lng: 105.852148 };
+        $(document).ready(function () {
+
+            $('#DiaChi').on('change', function () {
+                if ($(this).val() !== "") {
+
+                    var request = new XMLHttpRequest();
+                    var URL = "https://maps.googleapis.com/maps/api/geocode/json?&address=" + $(this).val() + "&key=AIzaSyBaYC2fiTHZWabStU9wk14jTw5tKFYaW7Q";
+
+                    request.open('GET', URL, true);
+
+                    request.onload = function () {
+                        if (request.status >= 200 && request.status < 400) {
+                            // Success!
+                            var resp = request.responseText;
+                            var json = JSON.parse(resp);                            
+                            myLatlng = json.results[0].geometry.location;
+                            console.log(myLatlng);
+                            initMap();
+                        } else {
+                            // We reached our target server, but it returned an error
+                            alert('Mất kết nối');
+
+                        }
+                    };
+
+                    request.onerror = function () {
+                        // There was a connection error of some sort
+                    };
+
+                    request.send();
+                }
+            });
+        });
+
+        var marker;
+
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 15,
+                scrollwheel: false,
+                center: myLatlng
+            });
+
+            marker = new google.maps.Marker({
+                map: map,
+                draggable: true,
+                position: myLatlng
+            });
+
+            $('#longlat').val(marker.getPosition().lat() + ',' + marker.getPosition().lng());
+
+            google.maps.event.addListener(marker, 'dragend', function () {
+                var _lat = this.getPosition().lat();
+                var _long = this.getPosition().lng();
+                $('#longlat').val(_lat + ',' + _long);
+            });
+
+            //google.maps.event.addListener(marker, 'click', function () {
+            //    var x = this.getPosition().lat();
+            //    var y = this.getPosition().lng();
+            //    $('#longlat').val(x + ',' + y)
+            //});
+
+            google.maps.event.addListener(map, 'click', function (event) {
+                var _lat = event.latLng.lat();
+                var _long = event.latLng.lng();
+                $('#longlat').val(_lat + ',' + _long);
+                map.setCenter(marker.setPosition(event.latLng));
+                //map.setZoom(8);
+                //map.setCenter(marker.getPosition());
+            });
+
+            
+        }
+
+    </script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBaYC2fiTHZWabStU9wk14jTw5tKFYaW7Q&callback=initMap"></script>
+}
+
+

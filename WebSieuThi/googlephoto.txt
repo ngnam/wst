@@ -1,0 +1,51 @@
+﻿// string keyFilePath = Server.MapPath("/Key.p12");    // found in developer console
+                       // string serviceAccountEmail = "supermarket@supermarket-25a4e.iam.gserviceaccount.com";   // found in developer console
+                       // var certificate = new X509Certificate2(keyFilePath, "notasecret", X509KeyStorageFlags.Exportable);
+
+                       // ServiceAccountCredential credential = new ServiceAccountCredential(new ServiceAccountCredential.Initializer(serviceAccountEmail) //create credential using certigicate
+                       // {
+                       //     Scopes = new[] { "https://spreadsheets.google.com/feeds/" } //this scopr is for spreadsheets, check google scope FAQ for others
+                       // }.FromCertificate(certificate));
+
+                       // credential.RequestAccessTokenAsync(System.Threading.CancellationToken.None).Wait(); //request token
+                       // //user agent
+                       // var requestFactory = new GDataRequestFactory("Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36");
+                       // requestFactory.CustomHeaders.Add(string.Format("Authorization: Bearer {0}", credential.Token.AccessToken));
+
+                       // SpreadsheetsService myService = new SpreadsheetsService("praxis-electron-145815"); //create your old service
+                       // myService.RequestFactory = requestFactory; //add new request factory to your old service
+
+                       // SpreadsheetQuery query = new SpreadsheetQuery(); //do the job as you done it before
+                       // SpreadsheetFeed feed = myService.Query(query);
+
+                       // var _fileName = Guid.NewGuid().ToString("N") + Path.GetExtension(file.FileName);
+
+                       // //PicasaService service = new PicasaService("praxis-electron-145815");
+                       // //service.setUserCredentials("sieuthi.app.muaban@gmail.com", "sieuthi@123");
+
+
+                       // PicasaService service = new PicasaService("supermarket-25a4e");
+                       //// myService.setUserCredentials("sieuthi.app.muaban@gmail.com", "sieuthi@123");
+                       // PicasaEntry photoEntry = new PhotoEntry();
+                       // photoEntry.Title.Text = _fileName; //Using the name of the file as title
+                       // photoEntry.Summary.Text = "This is a summary of my picture";
+                        
+                       // //Create uri to where to upload the picture
+                       // Uri postUri = new Uri(PicasaQuery.CreatePicasaUri("112862974174375607844", "6214941565720635313"));
+
+                       // //Set the MediaSource of the picture you are going to upload (the stream we made earlier, file name and image type to upload)
+                       // photoEntry.MediaSource = new MediaFileSource(file.InputStream, _fileName, "image/png");
+                       // PicasaEntry newPhoto = myService.Insert(postUri, photoEntry);
+                        
+                        //Upload the image!
+                        //PicasaEntry newPhoto = picasaHelper.Service.Insert(postUri, photoEntry);
+                        //PicasaService service = new PicasaService("praxis-electron-145815");
+                        //service.setUserCredentials("sieuthi.app.muaban@gmail.com", "sieuthi@123");
+                        //Uri postUri = new Uri(PicasaQuery.CreatePicasaUri("117125128700214118436", "6339275266436217153"));
+
+                        //string filePath = Server.MapPath("/xxx.jpg");
+                        ////Byte[] data =  Path.GetFileName("/xxx.jpg");
+                        //System.IO.FileInfo fileinfo = new FileInfo(filePath);
+                        //FileStream filestream = fileinfo.OpenRead();
+                        //PicasaEntry entry = (PicasaEntry)service.Insert(postUri, filestream, "image/jpeg", filePath);
+                        //filestream.Close();

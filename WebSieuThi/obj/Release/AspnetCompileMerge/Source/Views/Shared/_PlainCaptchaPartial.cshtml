@@ -1,0 +1,58 @@
+﻿@model CaptchaMvc.Models.DefaultBuildInfoModel
+@{
+    Model.RefreshButtonText = "Lấy mã khác";
+    Model.InputText = "";
+    Model.IsRequired = true;
+    Model.RequiredMessage = "Vui lòng nhập mã bảo mật.";
+}
+<img id="@Model.ImageElementId" src="@Model.ImageUrl" style="display: block;" />
+@Html.Hidden(Model.TokenElementId, Model.TokenValue)
+
+@{
+    string id = Guid.NewGuid().ToString("N");
+    string functionName = string.Format("______{0}________()", Guid.NewGuid().ToString("N"));
+    <a href="#@Model.InputElementId" id="@id" style="display: none;">@Model.RefreshButtonText</a>
+    <script type="text/javascript">
+
+    $(function () {
+        $('#@id').show();
+    });
+
+    $('#@id').on('click', function(e) {
+        e.preventDefault();
+        $(this).hide();
+        $.post("@Model.RefreshUrl", { @Model.TokenParameterName: $('#@Model.TokenElementId').val() },
+            function () {
+                $('#@id').show();
+            });
+    })
+
+    function @functionName {
+        $('#@id').hide();
+        $.post("@Model.RefreshUrl", { @Model.TokenParameterName: $('#@Model.TokenElementId').val() },
+            function () {
+                $('#@id').show();
+            });
+        return false;
+    }
+    </script>
+
+}
+
+
+@Model.InputText
+
+@if (Model.IsRequired)
+{
+    @Html.TextBox(Model.InputElementId, null, new Dictionary<string, object>
+                                                  {
+                                                      {"data-val", "true"},
+                                                      {"data-val-required", Model.RequiredMessage},
+                                                      {"class", "form-control"}
+                                                  })
+}
+else
+{
+    @Html.TextBox(Model.InputElementId, null, htmlAttributes: new { @class = "form-control" })
+}
+@Html.ValidationMessage(Model.InputElementId, new { @class = "text-danger" })

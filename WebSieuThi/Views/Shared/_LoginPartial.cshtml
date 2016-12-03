@@ -1,0 +1,30 @@
+﻿@if (Request.IsAuthenticated)
+{
+    <li>
+        @if (User.IsInRole("hethong"))
+        {
+            @Html.RouteLink("Xin chào " + User.Identity.Name, "ManagerUserHethong", routeValues: null, htmlAttributes: new { title = "Thông tin tài khoản" })
+        }
+        else if (User.IsInRole("sieuthi"))
+        {
+            @Html.RouteLink("Xin chào " + User.Identity.Name, "ManagerUserSieuthi", routeValues: null, htmlAttributes: new { title = "Thông tin tài khoản" })
+        }
+    </li>
+    <li><a href="#" id="logout">Đăng xuất</a></li>
+}
+else
+{
+    <li>@Html.RouteLink("Đăng ký tài khoản", "RegisterAccount", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+    <li>@Html.RouteLink("Đăng nhập", "LoginAccount", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+}
+
+<script>
+    $(document).ready(function () {
+        $('#logout').on('click', function (e) {
+            e.preventDefault();
+            if (confirm('Bạn chắc chắn muốn thoát?')) {
+                location.href = "/admin/logout";
+            }
+        })
+    })
+</script>

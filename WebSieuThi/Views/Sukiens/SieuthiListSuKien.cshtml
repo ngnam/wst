@@ -1,0 +1,253 @@
+﻿@model PagedList.IPagedList<WebSieuThi.Models.SuKien>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Danh sách sự kiện";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section styles {
+    <link href="~/Content/PagedList.css" rel="stylesheet" />
+<link href="~/Content/admin/vendor/datatable/dataTables.bootstrap.min.css" rel="stylesheet" />
+
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="page-header">
+            <h3>
+                <i class="fa fa-bell-o fa-2x fa-color-red"></i> @ViewBag.Title
+
+            </h3>
+        </div>
+
+        @if (TempData["Updated"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade in" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                @Html.Raw(TempData["Updated"])
+            </div>
+        }
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default box box-primary">
+            <div class="panel-heading">
+                @using (Html.BeginForm("SieuthiListSuKien", "SuKiens", FormMethod.Get, new { @class = "form-inline", role = "form", @id = "search-sukien", onsubmit = "return validate()" }))
+                {
+
+                    <div class="form-group">
+                        @Html.TextBox("search", "", new { @class = "form-control", placeholder = "Nhập từ khóa cần tìm" })
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-primary" value="Tìm kiếm" />
+                    </div>
+
+                    @*<div class="list-style-buttons form-group pull-right">
+                        <a href="#" id="list" data-toggle="tooltip" data-placement="bottom" title="Hiện thị kiểu danh sách">
+                            <i class="fa fa-2x fa-list">
+                            </i>
+                        </a>
+                        <a href="#" id="grid" data-toggle="tooltip" data-placement="bottom" title="Hiện thị kiểu bảng">
+                            <i class="fa fa-2x fa-th-large"></i>
+                        </a>
+                    </div>*@
+                }
+
+            </div>
+
+            <script>
+                function validate() {
+                    if (document.getElementById("search").value === "") {
+                        alert("Vui lòng nhập từ khóa tìm kiếm");
+                        return false;
+                    } else {
+                        return true;
+                    };
+
+                }
+
+            </script>
+
+
+
+            <div class="panel-body">
+                @if (Model.Count > 0)
+                {
+                    @*<div id="products" class="row list-group auto-clear">
+                        @foreach (var item in Model)
+                        {
+                            <div class="item col-md-4 grid-group-item">
+                                <div class="thumbnail">
+                                    @if (item.DsAnh != null)
+                                    {
+                                        <img class="group list-group-image" src="@item.DsAnh.Split(',')[0].Trim()" alt="" />
+                                    }
+                                    else
+                                    {
+                                        <img class="group list-group-image" src="~/Content/img/no-image.png" alt="" />
+                                    }
+                                    <div class="caption">
+                                        <h3 class="group inner list-group-item-heading">
+                                            @item.TDSuKien
+                                        </h3>
+                                        <p class="group inner list-group-item-text"><b>Ngày tạo: </b>@item.NgayTao</p>
+                                        <p class="group inner list-group-item-text">
+                                            <b>Trạng thái: </b>
+                                            @if (item.DaThongBao == true)
+                                            {
+                                                <span>Đã gửi thông báo.</span>
+                                            }
+                                            else
+                                            {
+                                                <span>Chưa gửi thông báo.</span>
+                                            }
+                                        </p>
+
+                                        <div class="row">
+                                            <div class="col-xs-12 col-md-5">
+                                                @Html.RouteLink("Sửa", "SieuthiEditSK", new { id = item.SuKienId }, htmlAttributes: new { @class = "btn btn-primary" })
+                                                @Html.RouteLink("Xóa", "SieuthiDeleteSK", new { id = item.SuKienId }, htmlAttributes: new { @class = "btn btn-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        }
+                    </div>*@
+
+    <div class="table-responsive">
+        <table class="table table table-bordered table-striped table_order_stt" id="table-sukien">
+            <thead>
+                <tr>
+                    <th class="no-sort" style="width: 50px; text-align: center;">STT</th>
+                    <th>Ảnh đại diện</th>
+                    <th>Tiêu đề</th>
+                    <th>Ngày tạo</th>
+                    <th>Trạng thái</th>
+                    <th class="no-sort"></th>
+                </tr>
+            </thead>
+            <tbody>
+               
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td style="text-align:center;"></td>
+                        <td>
+                            @if (item.DsAnh != null)
+                            {
+                                <img class="img-100x100" src="@item.DsAnh.Split(',')[0].Trim()" alt="" />
+                            }
+                            else
+                            {
+                                <img class="img-100x100" src="~/Content/img/no-image.png" alt="" />
+                            }
+
+                        </td>
+                        <td>@item.TDSuKien</td>
+                        <td>
+                            @item.NgayTao
+                        </td>
+                        <td>
+                            @if (item.DaThongBao == true)
+                            {
+                                <span>Đã gửi thông báo.</span>
+                            }
+                            else
+                            {
+                                <span>Chưa gửi thông báo.</span>
+                            }
+                        </td>
+                        <td>
+                            @Html.RouteLink("Sửa", "SieuthiEditSK", new { id = item.SuKienId }, htmlAttributes: new { @class = "btn btn-primary" })
+                            @*@Html.RouteLink("Xóa", "SieuthiDeleteSK", new { id = item.SuKienId }, htmlAttributes: new { @class = "btn btn-danger" })*@
+                        </td>
+                    </tr>
+                           
+                }
+            </tbody>
+        </table>
+    </div>
+                    <div class="row pull-right">
+                        <div class="col-md-12">
+                            @Html.PagedListPager(Model, page => Url.RouteUrl("SieuthiListSK", new { search = ViewBag.search, pg = page }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <span>Không có sự kiện nào.</span>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+<script src="~/Content/admin/vendor/datatable/jquery.dataTables.min.js"></script>
+<script src="~/Content/admin/vendor/datatable/dataTables.bootstrap.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#table-sukien').DataTable({
+            paging: false,
+            "oLanguage": {
+                "sEmptyTable": "Không tìm thấy mặt hàng nào.",
+                "sLoadingRecords": "Vui lòng - chờ...",
+                "sSearch": "Tìm kiếm nhanh: ",
+                "sZeroRecords": "Không tìm thấy mặt hàng nào.",
+                "sInfo": ""
+            },
+            "order": [],
+            columnDefs: [
+                { targets: 'no-sort', orderable: false }
+            ]
+        });
+    });
+</script>
+    <script>
+        //$(document).ready(function () {
+        //    var maxHeight = 0;
+        //    $(".equalize").each(function () {
+        //        if ($(this).height() > maxHeight) { maxHeight = $(this).height(); }
+        //    });
+        //    $(".equalize").height(maxHeight);
+        //});
+
+        //$(document).ready(function () {
+        //    $('#list').click(function (event) {
+        //        event.preventDefault();
+        //        $('#products .item').addClass('list-group-item').removeClass('grid-group-item');
+        //    });
+        //    $('#grid').click(function (event) {
+        //        event.preventDefault();
+        //        $('#products .item').removeClass('list-group-item').addClass('grid-group-item');
+        //    });
+        //});
+
+        function addClearFilter() {
+            $('#search-sukien').append('<a href="#" id="clearFilter">Xóa bộ lọc</a>');
+
+            $('#clearFilter').on('click', function () {
+                window.location.href = "/admin/sieuthi/dssukien";
+            })
+        }
+    </script>
+
+
+    @if (ViewBag.search != null)
+    {
+        <script>
+            addClearFilter();
+        </script>
+    }
+}

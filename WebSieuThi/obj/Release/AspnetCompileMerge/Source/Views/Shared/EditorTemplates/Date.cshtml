@@ -1,0 +1,9 @@
+﻿@model DateTime?
+@{
+    var value = "";
+    if (Model.HasValue)
+    {
+        value = String.Format("{0:d}", Model.Value.ToString("yyyy-MM-dd"));
+    }
+}
+@Html.TextBox("", value, new { @class = "datefield form-control", type = "text", data_val_date = "Ngày tháng không đúng định dạng ngày/tháng/năm." })

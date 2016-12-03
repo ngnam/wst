@@ -1,0 +1,114 @@
+﻿@using CaptchaMvc.HtmlHelpers
+@model WebSieuThi.Models.LoginViewModel
+@{
+    ViewBag.Title = "Đăng nhập";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+	.btn-primary:hover {
+		background-color: #116f01!important;
+	}
+</style>
+
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <section id="loginForm" style="padding: 10px; border: 2px solid #148c00; border-radius: 10px; -webkit-border-radius: 10px; -moz-border-radius: 10px; -o-border-radius: 10px;">
+            <div class="page-header" style="border-color: #148c00;">
+                <h3 style="margin-top: 0;">@ViewBag.Title</h3>
+            </div>
+            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @*@Html.LabelFor(m => m.Email, new { @class = "col-md-4 control-label" })*@
+                    <div class="col-md-12">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="border-color: #148c00;"><i class="fa fa-envelope-o"></i></span>
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Địa chỉ email" })
+                        </div>
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                    </div>                    
+                </div>
+                
+                <div class="form-group">
+                    @*@Html.LabelFor(m => m.Password, new { @class = "col-md-4 control-label" })*@
+                    <div class="col-md-12">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="border-color: #148c00;"><i class="fa fa-unlock"></i></span>
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Mật khẩu" })
+                        </div>                        
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @*<label for="capchaPlain" class="col-md-4 control-label">Mã bảo mật</label>*@
+                    <div class="col-md-6">
+                        @Html.LabelFor(m => m.TypeAccount, new { @class = "control-label" })
+                        @Html.HiddenFor(m => m.TypeAccount)
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="rTypeAccount" value="hethong" /> Tài khoản hệ thống
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="rTypeAccount" value="sieuthi" /> Tài khoản siêu thị
+                            </label>
+                        </div>
+                        @Html.ValidationMessageFor(m => m.TypeAccount, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-6">
+                        @*@Html.MathCaptcha("Làm mới", "", "Vui lòng nhập mã bảo mật", true)*@
+                        @*@Html.Captcha("Làm mới", "", 4, "Vui lòng nhập mã bảo mật", true)*@
+                        @*@Html.Captcha("Lấy mã khác", "", 4, "Vui lòng nhập mã bảo mật", true)*@
+                        @Html.Captcha(4, "_PlainCaptchaPartial", new ViewDataDictionary { })
+                    </div>
+                </div>
+
+    <script>
+    $(document).ready(function () {
+        $('input[type=radio][name=rTypeAccount]').on('change', function () {
+            if (this.value === "hethong") {
+                $('#TypeAccount').val(true);
+            } else if (this.value === "sieuthi") {
+                $('#TypeAccount').val(false);
+            }
+        })       
+    })
+
+    //function validate() {
+    //    if ($('input[name=rTypeAccount]:checked').length <= 0) {
+    //        return false;
+    //        alert("Vui lòng tài khoản đăng nhập.")
+    //    } else {
+    //        return true;
+    //    }
+    //}
+    </script>
+
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @*<input type="submit" value="Đăng nhập" class="btn btn-primary" />*@
+                        <button class="btn btn-primary" style="background-color: #148c00; border-color: #116f01;">
+                            <i class="fa fa-sign-in"></i> Đăng nhập
+                        </button>
+                    </div>
+                </div>
+              
+            }
+        </section>
+    </div>
+
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+<script type="text/javascript">
+    $.validator.setDefaults({
+        ignore: ""
+    });
+</script>
+
+}
