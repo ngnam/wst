@@ -1,4 +1,4 @@
-﻿@model WebSieuThi.Models.SuKienModel
+@model WebSieuThi.Models.SuKienModel
 @{
     ViewBag.Title = "Thêm mới sự kiện";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
@@ -14,6 +14,9 @@
         <div class="page-header">
             <h3><i class="fa fa-bell-o fa-2x fa-color-red"></i> @ViewBag.Title</h3>
         </div>
+
+
+        
 
         @if (TempData["Updated"] != null)
         {
