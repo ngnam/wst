@@ -20,6 +20,7 @@ using System.Web.UI;
 using System.Data;
 using System.Data.OleDb;
 using System.Data.SqlClient;
+using Excel;
 
 namespace WebSieuThi.Controllers
 {
@@ -803,76 +804,57 @@ namespace WebSieuThi.Controllers
                                 System.IO.File.Delete(fileLocation);
                             }
                             file.SaveAs(fileLocation);
-                            string excelConnectionString = string.Empty;
-                            excelConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" +
-                            fileLocation + ";Extended Properties=\"Excel 12.0;HDR=Yes;IMEX=2\"";
-                            //connection String for xls file format.
-                            if (fileExtension == ".xls")
-                            {
-                                excelConnectionString = "Provider=Microsoft.Jet.OLEDB.12.0;Data Source=" +
-                                fileLocation + ";Extended Properties=\"Excel 12.0;HDR=Yes;IMEX=2\"";
-                                //string excelconnectionstring = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" +excelfilepath + ";"+"Extended Properties="Excel 12.0;HDR=Yes";
-                            }
-                            //connection String for xlsx file format.
-                            else if (fileExtension == ".xlsx")
-                            {
-                                excelConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" +
-                                fileLocation + ";Extended Properties=\"Excel 12.0;HDR=Yes;IMEX=2\"";
-                            }
-                            //Create Connection to Excel work book and add oledb namespace
-                            OleDbConnection excelConnection = new OleDbConnection(excelConnectionString);
-                            excelConnection.Open();
-                            DataTable dt = new DataTable();
 
-                            dt = excelConnection.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-                            if (dt == null)
+                            // đọc file excel tại đây
+                            FileStream stream = System.IO.File.Open(fileLocation, FileMode.Open, FileAccess.Read);
+                           
+                            //1. Reading from a binary Excel file ('97-2003 format; *.xls)
+                            IExcelDataReader excelReader = ExcelReaderFactory.CreateBinaryReader(stream);
+
+                            //3. DataSet - The result of each spreadsheet will be created in the result.Tables
+                            ds = excelReader.AsDataSet();
+                            if (ds == null)
                             {
                                 return null;
                             }
 
-                            String[] excelSheets = new String[dt.Rows.Count];
-                            int t = 0;
-                            //excel data saves in temp file here.
-                            foreach (DataRow row in dt.Rows)
+                            //5. Data Reader methods
+                            excelReader.Read();
+                            //while (excelReader.Read())
+                            //{
+                            //}
+                            for (int i = 1; i < ds.Tables[0].Rows.Count; i++)
                             {
-                                excelSheets[t] = row["MatHangChung"].ToString();
-                                t++;
-                            }
-                            OleDbConnection excelConnection1 = new OleDbConnection(excelConnectionString);
+                                string _mamahangtam = ds.Tables[0].Rows[i][1].ToString();
+                                var _mhx = db.MatHangChungs.Where(x => x.MaMatHangChung == _mamahangtam).FirstOrDefault();
+                                if (_mhx != null)
+                                {
+                                    Helpers.Config.SaveToLog("Error: " + ds.Tables[0].Rows[i].ToString() + " Dòng này trùng dữ liệu.");
+                                }
+                                else
+                                {
+                                    string sql = string.Format("insert into MatHangChung(MaMatHangChung, TenMatHang, AnhDaiDien, DSHinhAnh, MoTa, NgayBDKM, NgayKTKM, GiaCa, TrangThai, LoaiHang, PhanTramKM, MaGianHangChung, GianHangChungId) values('{0}', '{1}','{2}','{3}','{4}','{5}','{6}','{7}',{8},'{9}',{10},'{11}',{12})", ds.Tables[0].Rows[i][1].ToString(), ds.Tables[0].Rows[i][2].ToString(), ds.Tables[0].Rows[i][3].ToString(), ds.Tables[0].Rows[i][4].ToString(), ds.Tables[0].Rows[i][5].ToString(), DateTime.FromOADate(double.Parse(ds.Tables[0].Rows[i][6].ToString())), DateTime.FromOADate(double.Parse(ds.Tables[0].Rows[i][7].ToString())), ds.Tables[0].Rows[i][8].ToString(), Int32.Parse(ds.Tables[0].Rows[i][9].ToString()), ds.Tables[0].Rows[i][10].ToString(), Int32.Parse(ds.Tables[0].Rows[i][11].ToString()), ds.Tables[0].Rows[i][12].ToString(), Int32.Parse(ds.Tables[0].Rows[i][13].ToString()));
 
-
-                            string query = string.Format("Select * from [{0}]", excelSheets[0]);
-                            using (OleDbDataAdapter dataAdapter = new OleDbDataAdapter(query, excelConnection1))
-                            {
-                                dataAdapter.Fill(ds);
+                                    int noOfRowInserted = db.Database.ExecuteSqlCommand(sql);
+                                    if (noOfRowInserted == 0)
+                                    {
+                                        Helpers.Config.SaveToLog("Error: " + ds.Tables[0].Rows[i].ToString());
+                                    }
+                                }
+                                // đóng vòng lặp
+                                if (i == ds.Tables[0].Rows.Count - 1)
+                                {
+                                    excelReader.Close();
+                                    break;
+                                }
                             }
+
+                            //6. Free resources (IExcelDataReader is IDisposable)
+                            
+                           
                         }
 
 
-                        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
-                        {
-                            string sql = @"insert into MatHangChung(MaMatHangChung, TenMatHang, AnhDaiDien, DSHinhAnh, MoTa, NgayBDKM, NgayKTKM, GiaCa,
-                    TrangThai, LoaiHang, PhanTramKM, MaGianHangChung, GianHangChungId) values(
-                    '" + ds.Tables[0].Rows[i][1].ToString() + "','"
-                              + ds.Tables[0].Rows[i][2].ToString() + "','"
-                              + ds.Tables[0].Rows[i][3].ToString() + "','"
-                              + ds.Tables[0].Rows[i][4].ToString() + "','"
-                              + ds.Tables[0].Rows[i][5].ToString() + "','"
-                              + ds.Tables[0].Rows[i][6].ToString() + "','"
-                              + ds.Tables[0].Rows[i][7].ToString() + "','"
-                              + ds.Tables[0].Rows[i][8].ToString() + "','"
-                              + ds.Tables[0].Rows[i][9].ToString() + "','"
-                              + ds.Tables[0].Rows[i][10].ToString() + "','"
-                              + ds.Tables[0].Rows[i][11].ToString() + "','"
-                              + ds.Tables[0].Rows[i][12].ToString() + "','"
-                              + ds.Tables[0].Rows[i][13].ToString() + "','"
-                              + "')";
-                            int noOfRowInserted = db.Database.ExecuteSqlCommand(sql);
-                            if (noOfRowInserted == 0)
-                            {
-                                Helpers.Config.SaveToLog("Error: " + ds.Tables[0].Rows[i].ToString());
-                            }
-                        }
                     }
                 }
             }
@@ -921,7 +903,7 @@ public class Export
             Response.ClearContent();
             //var filename = "MatHang_" + DateTime.Now.ToString("yyyyMMdd")+".xls";
             Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
-            Response.ContentType = "application/excel";
+            Response.ContentType = "application/vnd.ms-excel";
             StringWriter sw = new StringWriter();
             HtmlTextWriter htw = new HtmlTextWriter(sw);
 
