@@ -132,8 +132,13 @@ namespace WebSieuThi.Controllers
                             chitietdhs.Append(_str11 + "<br/>");
                         }
                     }
-                    string emailSieuthi = db.SieuThis.Find(_dondathang.SieuThiId).Email;
-                    Helpers.Config.Sendmail(ConfigurationManager.AppSettings["yourEmail"], ConfigurationManager.AppSettings["yourPass"], emailSieuthi, "Thông tin đơn hàng " + _dondathang.HoTen, strThongTinDH + chitietdhs.ToString());
+                    string emailgui = "";
+                    emailgui = db.SieuThis.Find(_dondathang.SieuThiId).Email;
+                    if (emailgui.Contains("test.com"))
+                    {
+                        emailgui = db.SieuThis.Find(_dondathang.SieuThiId).HeThong.Email;
+                    }
+                    Helpers.Config.Sendmail(ConfigurationManager.AppSettings["yourEmail"], ConfigurationManager.AppSettings["yourPass"], emailgui, "Thông tin đơn hàng " + _dondathang.HoTen, strThongTinDH + chitietdhs.ToString());
                 
                 }
                 catch (Exception ex)
