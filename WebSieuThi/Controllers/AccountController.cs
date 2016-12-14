@@ -57,12 +57,12 @@ namespace WebSieuThi.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        [CaptchaMvc.Attributes.CaptchaVerify("Mã bảo mật nhập không đúng")]
+        //[CaptchaMvc.Attributes.CaptchaVerify("Mã bảo mật nhập không đúng")]
         public ActionResult Login(LoginViewModel model, string returnUrl)
         {
             if (!ModelState.IsValid)
             {
-                ModelState.AddModelError("", "Mã bảo mật nhập không đúng");
+                //ModelState.AddModelError("", "Mã bảo mật nhập không đúng");
                 return View();
             }
             //FormsAuthentication.SetAuthCookie(model.Email, true);

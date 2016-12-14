@@ -59,12 +59,10 @@
                         </div>
                         @Html.ValidationMessageFor(m => m.TypeAccount, "", new { @class = "text-danger" })
                     </div>
-                    <div class="col-md-6">
-                        @*@Html.MathCaptcha("Làm mới", "", "Vui lòng nhập mã bảo mật", true)*@
-                        @*@Html.Captcha("Làm mới", "", 4, "Vui lòng nhập mã bảo mật", true)*@
-                        @*@Html.Captcha("Lấy mã khác", "", 4, "Vui lòng nhập mã bảo mật", true)*@
+                    @*<div class="col-md-6">
+                        
                         @Html.Captcha(4, "_PlainCaptchaPartial", new ViewDataDictionary { })
-                    </div>
+                    </div>*@
                 </div>
 
     <script>

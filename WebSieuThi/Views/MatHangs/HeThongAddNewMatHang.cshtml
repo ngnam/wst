@@ -2,6 +2,15 @@
 @{
     ViewBag.Title = "Thêm mặt hàng";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    if (ViewBag.NgayBDKM != null)
+    {
+        Model.NgayBDKM = ViewBag.NgayBDKM;
+    }
+    if (ViewBag.NgayKTKM != null)
+    {
+        Model.NgayKTKM = ViewBag.NgayKTKM;
+    }
+    
 }
 
 @section styles {
@@ -237,12 +246,27 @@
     </div>
 </div>
 
+@if (ViewBag.LoaiHang != null)
+{
+    <script>
+        $('#LoaiHang').val('@ViewBag.LoaiHang');
+        if ($('#LoaiHang').val() === '1') {
+            $('#ngaythangkhuyenmai').fadeIn();
+            $('#phantramkhuyenmai').fadeIn();
+            $('#NgayBDKM').attr({ 'required': 'Vui lòng nhập ngày bắt đầu', 'data-val-required': 'Vui lòng nhập ngày bắt đầu' });
+            $('#NgayKTKM').attr({ 'required': 'Vui lòng nhập ngày kết thúc', 'data-val-required': 'Vui lòng nhập ngày kết thúc' });
+            $('#PhanTramKM').attr({ 'required': 'Vui lòng nhập phần trăm khuyến mại', 'data-val-required': 'Vui lòng nhập phần trăm khuyến mại' });
+        }
+    </script>
+}
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/dropzonescripts")
 
     <script>
+        
+
         $(function () {
             CKEDITOR.replace('MoTa',
             {

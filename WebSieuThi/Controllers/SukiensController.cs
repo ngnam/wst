@@ -76,34 +76,11 @@ namespace WebSieuThi.Controllers
                 _newSkc.DaThongBao = model.ConfirmSend;
                 _newSkc.NgayBD = model.NgayBD ?? null;
                 _newSkc.NgatKT = model.NgayKT ?? null;
-                string _dsanh = "";
-                if (model.indivanh1 != null && model.indivanh1 != "")
-                {
-                    _dsanh += model.indivanh1 + ",";
-                }
-                if (model.indivanh2 != null && model.indivanh2 != "")
-                {
-                    _dsanh += model.indivanh2 + ",";
-                }
-                if (model.indivanh3 != null && model.indivanh3 != "")
-                {
-                    _dsanh += model.indivanh3 + ",";
-                }
-                if (model.indivanh4 != null && model.indivanh4 != "")
-                {
-                    _dsanh += model.indivanh4 + ",";
-                }
-                if (model.indivanh5 != null && model.indivanh5 != "")
-                {
-                    _dsanh += model.indivanh5 + ",";
-                }
-                if (_dsanh != "")
-                {
-                    _dsanh = _dsanh.Remove(_dsanh.Length - 1);
-                }  
+                _newSkc.DsAnh = model.DsAnh ?? null;
+
                 //YourString = YourString.Remove(YourString.Length - 1);
                 //_dsanh = _dsanh.Remove(_dsanh.Length - 1);
-                _newSkc.DsAnh = _dsanh != "" ? _dsanh : null;
+                //_newSkc.DsAnh = _dsanh != "" ? _dsanh : null;
 
                 db.SuKienChungs.Add(_newSkc);
                 await db.SaveChangesAsync();
@@ -116,7 +93,7 @@ namespace WebSieuThi.Controllers
                     {
                         string _fcmAppId = ConfigurationManager.AppSettings["fcmAppId"];
                         string _fcmSenderId = ConfigurationManager.AppSettings["fcmSenderId"];
-                        if (GuiThongBaoFcm(_fcmAppId, _fcmSenderId, model.TDSuKien, dssieuthi, _dsanh, "HT_" + model.HeThongId.ToString()))
+                        if (GuiThongBaoFcm(_fcmAppId, _fcmSenderId, model.TDSuKien, dssieuthi, model.DsAnh, "HT_" + model.HeThongId.ToString()))
                         {
                             strThongBao = "Đã thêm mới sự kiện và gửi thông báo đến người dùng thành công.";
                             TempData["Updated"] = strThongBao;
@@ -305,183 +282,178 @@ namespace WebSieuThi.Controllers
         }
 
         //HeThongEditSukien
-        [Authorize(Roles = "hethong")]
-        public async Task<ActionResult> HeThongEditSukien(int? id)
-        {
-            if (id == null || id == 0)
-            {
-                return RedirectToRoute("AdminPanel");
-            }
-            SuKienChung _sukien = await db.SuKienChungs.FindAsync(id);
-            if (_sukien == null)
-            {
-                return RedirectToRoute("AdminPanel");
-            }
-            List<string> danhsachanh = new List<string>();
-            if (_sukien.DsAnh != null)
-            {
-                danhsachanh.AddRange(_sukien.DsAnh.Split(','));
-            }           
-            if (danhsachanh.Count == 1)
-            {
-                danhsachanh.AddRange(new string[] { "", "", "", "" });
-            }
-            if (danhsachanh.Count == 2)
-            {
-                danhsachanh.AddRange(new string[] { "", "", "" });
-            }
-            if (danhsachanh.Count == 3)
-            {
-                danhsachanh.AddRange(new string[] { "", "" });
-            }
-            if (danhsachanh.Count == 4)
-            {
-                danhsachanh.AddRange(new string[] { "" });
-            }
-            if (danhsachanh.Count == 0)
-            {
-                danhsachanh.AddRange(new string[] { "", "", "", "", "" });
-            }
-            var arrayAnh = danhsachanh.ToArray();
-            var getSuKien = new SuKienChungModel()
-            {
-                SuKienChungId = _sukien.SuKienChungId,
-                HeThongId = _sukien.HeThongId,
-                ConfirmSend = (bool)_sukien.DaThongBao,
-                TDSuKien = _sukien.TDSuKien,
-                NDSuKien = _sukien.NDSuKien,
-                indivanh1 = arrayAnh[0],
-                indivanh2 = arrayAnh[1],
-                indivanh3 = arrayAnh[2],
-                indivanh4 = arrayAnh[3],
-                indivanh5 = arrayAnh[4],
-                NgayBD = _sukien.NgayBD,
-                NgayKT = _sukien.NgatKT
-            };
+        //[Authorize(Roles = "hethong")]
+        //public async Task<ActionResult> HeThongEditSukien(int? id)
+        //{
+        //    if (id == null || id == 0)
+        //    {
+        //        return RedirectToRoute("AdminPanel");
+        //    }
+        //    SuKienChung _sukien = await db.SuKienChungs.FindAsync(id);
+        //    if (_sukien == null)
+        //    {
+        //        return RedirectToRoute("AdminPanel");
+        //    }
+        //    List<string> danhsachanh = new List<string>();
+        //    if (_sukien.DsAnh != null)
+        //    {
+        //        danhsachanh.AddRange(_sukien.DsAnh.Split(','));
+        //    }           
+        //    if (danhsachanh.Count == 1)
+        //    {
+        //        danhsachanh.AddRange(new string[] { "", "", "", "" });
+        //    }
+        //    if (danhsachanh.Count == 2)
+        //    {
+        //        danhsachanh.AddRange(new string[] { "", "", "" });
+        //    }
+        //    if (danhsachanh.Count == 3)
+        //    {
+        //        danhsachanh.AddRange(new string[] { "", "" });
+        //    }
+        //    if (danhsachanh.Count == 4)
+        //    {
+        //        danhsachanh.AddRange(new string[] { "" });
+        //    }
+        //    if (danhsachanh.Count == 0)
+        //    {
+        //        danhsachanh.AddRange(new string[] { "", "", "", "", "" });
+        //    }
+        //    var arrayAnh = danhsachanh.ToArray();
+        //    var getSuKien = new SuKienChungModel()
+        //    {
+        //        SuKienChungId = _sukien.SuKienChungId,
+        //        HeThongId = _sukien.HeThongId,
+        //        ConfirmSend = (bool)_sukien.DaThongBao,
+        //        TDSuKien = _sukien.TDSuKien,
+        //        NDSuKien = _sukien.NDSuKien,
+        //        NgayBD = _sukien.NgayBD,
+        //        NgayKT = _sukien.NgatKT
+        //    };
 
-            return View(getSuKien);
-        }
+        //    return View(getSuKien);
+        //}
 
-        [Authorize(Roles = "hethong")]
-        [HttpPost, ValidateInput(false)]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> HeThongEditSukien(SuKienChungModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return RedirectToRoute("HethongEditSKC", new { id = model.SuKienChungId });
-            }
-            var _sukien = await db.SuKienChungs.FindAsync(model.SuKienChungId);
+        //[Authorize(Roles = "hethong")]
+        //[HttpPost, ValidateInput(false)]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> HeThongEditSukien(SuKienChungModel model)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return RedirectToRoute("HethongEditSKC", new { id = model.SuKienChungId });
+        //    }
+        //    var _sukien = await db.SuKienChungs.FindAsync(model.SuKienChungId);
 
-            try
-            {
-                if (_sukien != null)
-                {
-                    string strThongbao = "";
-                    _sukien.TDSuKien = model.TDSuKien ?? null;
-                    _sukien.NDSuKien = model.NDSuKien ?? null;
-                    _sukien.NgayTao = DateTime.Now;
-                    _sukien.HeThongId = model.HeThongId;
-                    _sukien.NgayBD = model.NgayBD ?? null;
-                    _sukien.NgatKT = model.NgayKT ?? null;
-                    string _dsanh = "";
-                    if (model.indivanh1 != null && model.indivanh1 != "")
-                    {
-                        _dsanh += model.indivanh1 + ",";
-                    }
+        //    try
+        //    {
+        //        if (_sukien != null)
+        //        {
+        //            string strThongbao = "";
+        //            _sukien.TDSuKien = model.TDSuKien ?? null;
+        //            _sukien.NDSuKien = model.NDSuKien ?? null;
+        //            _sukien.NgayTao = DateTime.Now;
+        //            _sukien.HeThongId = model.HeThongId;
+        //            _sukien.NgayBD = model.NgayBD ?? null;
+        //            _sukien.NgatKT = model.NgayKT ?? null;
+        //            string _dsanh = "";
+        //            if (model.indivanh1 != null && model.indivanh1 != "")
+        //            {
+        //                _dsanh += model.indivanh1 + ",";
+        //            }
                     
-                    if (model.indivanh2 != null && model.indivanh2 != "")
-                    {
-                        _dsanh += model.indivanh2 + ",";
-                    }
+        //            if (model.indivanh2 != null && model.indivanh2 != "")
+        //            {
+        //                _dsanh += model.indivanh2 + ",";
+        //            }
                     
-                    if (model.indivanh3 != null && model.indivanh3 != "")
-                    {
-                        _dsanh += model.indivanh3 + ",";
-                    }
+        //            if (model.indivanh3 != null && model.indivanh3 != "")
+        //            {
+        //                _dsanh += model.indivanh3 + ",";
+        //            }
                     
-                    if (model.indivanh4 != null && model.indivanh4 != "")
-                    {
-                        _dsanh += model.indivanh4 + ",";
-                    }
+        //            if (model.indivanh4 != null && model.indivanh4 != "")
+        //            {
+        //                _dsanh += model.indivanh4 + ",";
+        //            }
                     
-                    if (model.indivanh5 != null && model.indivanh5 != "")
-                    {
-                        _dsanh += model.indivanh5 + ",";
-                    }
-                    if (_dsanh != "")
-                    {
-                        _dsanh = _dsanh.Remove(_dsanh.Length - 1);
-                    }  
-                    //YourString = YourString.Remove(YourString.Length - 1);
-                    //_dsanh = _dsanh.Remove(_dsanh.Length - 1);
-                    _sukien.DsAnh = _dsanh != "" ? _dsanh : null;
-                    db.Entry(_sukien).State = EntityState.Modified;
+        //            if (model.indivanh5 != null && model.indivanh5 != "")
+        //            {
+        //                _dsanh += model.indivanh5 + ",";
+        //            }
+        //            if (_dsanh != "")
+        //            {
+        //                _dsanh = _dsanh.Remove(_dsanh.Length - 1);
+        //            }  
+        //            //YourString = YourString.Remove(YourString.Length - 1);
+        //            //_dsanh = _dsanh.Remove(_dsanh.Length - 1);
+        //            _sukien.DsAnh = _dsanh != "" ? _dsanh : null;
+        //            db.Entry(_sukien).State = EntityState.Modified;
                     
-                    if (model.ConfirmSend == true)
-                    {
-                        if (_sukien.DaThongBao == true)
-                        {
-                            strThongbao = "Đã cập nhật sự kiện " + model.TDSuKien ?? "";
-                            TempData["Updated"] = strThongbao;
-                            TempData["Error"] = "Sự kiện này đã được gửi thông báo.";
-                            await db.SaveChangesAsync();
-                            return RedirectToRoute("HethongEditSKC");
-                        }
-                        else
-                        {
-                            _sukien.DaThongBao = true;
-                            await db.SaveChangesAsync();
-                            // Gửi thông báo tới người đăng ký nhận thông báo
-                            var dssieuthi = db.SieuThis.Where(x => x.SieuThiId == model.HeThongId).Select(x => x.SieuThiId).ToList();
-                            try
-                            {
-                                string _fcmAppId = ConfigurationManager.AppSettings["fcmAppId"];
-                                string _fcmSenderId = ConfigurationManager.AppSettings["fcmSenderId"];
-                                if (GuiThongBaoFcm(_fcmAppId, _fcmSenderId, model.TDSuKien, dssieuthi, _dsanh, "HT_"+model.HeThongId.ToString()))
-                                {
-                                    strThongbao = "Đã thêm mới sự kiện " + model.TDSuKien ?? "" + " và gửi thông báo.";
-                                    TempData["Updated"] = strThongbao;
-                                    var user = db.HeThongs.Where(x => x.Email == User.Identity.Name).FirstOrDefault();
-                                    user.SoLuotSukien -= 1;
-                                    db.Entry(user).State = EntityState.Modified;
-                                    db.SaveChanges();
-                                }
-                                else
-                                {
-                                    TempData["Error"] = "Có lỗi xảy ra khi gửi thông báo.";
-                                    await db.SaveChangesAsync();
-                                    return RedirectToRoute("HethongEditSKC");
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                TempData["Error"] = "Có lỗi xảy ra khi gửi thông báo.";
-                                return RedirectToRoute("HethongEditSKC");
-                            }
-                        }
-                    }
-                    else
-                    {
-                        strThongbao = "Đã cập nhật sự kiện " + model.TDSuKien ?? "";
-                        TempData["Updated"] = strThongbao;
-                    }
+        //            if (model.ConfirmSend == true)
+        //            {
+        //                if (_sukien.DaThongBao == true)
+        //                {
+        //                    strThongbao = "Đã cập nhật sự kiện " + model.TDSuKien ?? "";
+        //                    TempData["Updated"] = strThongbao;
+        //                    TempData["Error"] = "Sự kiện này đã được gửi thông báo.";
+        //                    await db.SaveChangesAsync();
+        //                    return RedirectToRoute("HethongEditSKC");
+        //                }
+        //                else
+        //                {
+        //                    _sukien.DaThongBao = true;
+        //                    await db.SaveChangesAsync();
+        //                    // Gửi thông báo tới người đăng ký nhận thông báo
+        //                    var dssieuthi = db.SieuThis.Where(x => x.SieuThiId == model.HeThongId).Select(x => x.SieuThiId).ToList();
+        //                    try
+        //                    {
+        //                        string _fcmAppId = ConfigurationManager.AppSettings["fcmAppId"];
+        //                        string _fcmSenderId = ConfigurationManager.AppSettings["fcmSenderId"];
+        //                        if (GuiThongBaoFcm(_fcmAppId, _fcmSenderId, model.TDSuKien, dssieuthi, _dsanh, "HT_"+model.HeThongId.ToString()))
+        //                        {
+        //                            strThongbao = "Đã thêm mới sự kiện " + model.TDSuKien ?? "" + " và gửi thông báo.";
+        //                            TempData["Updated"] = strThongbao;
+        //                            var user = db.HeThongs.Where(x => x.Email == User.Identity.Name).FirstOrDefault();
+        //                            user.SoLuotSukien -= 1;
+        //                            db.Entry(user).State = EntityState.Modified;
+        //                            db.SaveChanges();
+        //                        }
+        //                        else
+        //                        {
+        //                            TempData["Error"] = "Có lỗi xảy ra khi gửi thông báo.";
+        //                            await db.SaveChangesAsync();
+        //                            return RedirectToRoute("HethongEditSKC");
+        //                        }
+        //                    }
+        //                    catch (Exception ex)
+        //                    {
+        //                        TempData["Error"] = "Có lỗi xảy ra khi gửi thông báo.";
+        //                        return RedirectToRoute("HethongEditSKC");
+        //                    }
+        //                }
+        //            }
+        //            else
+        //            {
+        //                strThongbao = "Đã cập nhật sự kiện " + model.TDSuKien ?? "";
+        //                TempData["Updated"] = strThongbao;
+        //            }
                     
                    
-                }
-                else
-                {
-                    return RedirectToRoute("AdminPanel");
-                }
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", "Có lỗi xảy ra khi sửa sự kiện");
-                return View(model);
-            }
+        //        }
+        //        else
+        //        {
+        //            return RedirectToRoute("AdminPanel");
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ModelState.AddModelError("", "Có lỗi xảy ra khi sửa sự kiện");
+        //        return View(model);
+        //    }
                        
-            return RedirectToRoute("HethongEditSKC", new { id = model.SuKienChungId });
-        }
+        //    return RedirectToRoute("HethongEditSKC", new { id = model.SuKienChungId });
+        //}
 
         //HethongDeleteSKC
         //[Authorize(Roles = "hethong")]

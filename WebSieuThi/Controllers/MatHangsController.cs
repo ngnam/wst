@@ -79,6 +79,9 @@ namespace WebSieuThi.Controllers
                 _newMhc.PhanTramKM = model.PhanTramKM ?? null;
                 _newMhc.NgayBDKM = model.NgayBDKM ?? null;
                 _newMhc.NgayKTKM = model.NgayKTKM ?? null;
+                ViewBag.NgayBDKM = model.NgayBDKM ?? null;
+                ViewBag.NgayKTKM = model.NgayKTKM ?? null;
+                ViewBag.LoaiHang = model.LoaiHang ?? null;
                 _newMhc.AnhDaiDien = model.AnhDaiDien ?? null;
                 _newMhc.MoTa = model.MoTa ?? null;
                 string _dsanh = "";
@@ -117,7 +120,7 @@ namespace WebSieuThi.Controllers
                 TempData["Error"] = "Có lỗi xảy ra khi thêm mặt hàng hàng.";
                 return RedirectToRoute("HethongAddNewMHC");
             }
-            return RedirectToRoute("HethongListMHC");
+            return RedirectToRoute("HethongAddNewMHC");
         }
 
         [Authorize(Roles = "hethong")]

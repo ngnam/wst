@@ -330,11 +330,7 @@ namespace WebSieuThi.Models
         public string NDSuKien { get; set; }
        
         public bool ConfirmSend { get; set; }
-        public string indivanh1 { get; set; }
-        public string indivanh2 { get; set; }
-        public string indivanh3 { get; set; }
-        public string indivanh4 { get; set; }
-        public string indivanh5 { get; set; }
+
         [Display(Name = "Ngày bắt đầu")]
         [DataType(DataType.Date)]
         [Required]

@@ -88,6 +88,66 @@ namespace WebSieuThi.Controllers
             }
         }
 
+        // up load anh
+        public ActionResult upnhieuanh()
+        {
+            bool isSavedSuccessfully = true;
+            var fName = "";
+            try
+            {
+                WebClient w = new WebClient();
+                w.UseDefaultCredentials = true;
+                w.Credentials = CredentialCache.DefaultNetworkCredentials;
+
+                w.Headers.Add("Authorization", "Client-ID " + ConfigurationManager.AppSettings["ImgurClientID"]);
+                //w.Headers.Add("Sender", "Client-Secret" + ConfigurationManager.AppSettings["ImgurClientSecret"]);
+
+                foreach (string fileName in Request.Files)
+                {
+                    HttpPostedFileBase file = Request.Files[fileName];
+                    //Save file content goes here
+                    if (file != null && file.ContentLength > 0)
+                    {
+                        // upanh tới imgur                  
+                        byte[] fileBytes = new byte[file.ContentLength];
+                        file.InputStream.Read(fileBytes, 0, fileBytes.Length);
+                        file.InputStream.Close();
+                        string postData = Convert.ToBase64String(fileBytes);
+                        var values = new NameValueCollection
+                            {
+                                {"image", postData},
+                                {"type", "base64"}
+                            };
+
+                        var response = w.UploadValues("https://api.imgur.com/3/image", values);
+
+                        Stream stream = new MemoryStream(response);
+                        StreamReader responseReader = new StreamReader(stream);
+
+                        string responseString = responseReader.ReadToEnd();
+
+                        var json = JObject.Parse(responseString);  //Turns your raw string into a key value lookup
+                        fName = json["data"]["link"].ToString();
+                    }
+                }
+                w.Dispose();
+            }
+            catch (Exception ex)
+            {
+                isSavedSuccessfully = false;
+            }
+            if (isSavedSuccessfully)
+            {
+                return Json(new { Message = fName }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new { Message = "Có lỗi khi lưu tệp tin" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+
 //        public ActionResult Create()
 //        {
 //            return View();
