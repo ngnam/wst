@@ -225,14 +225,16 @@
                     </div>
 
                     <div class="form-group" id="phantramkhuyenmai" style="display: none;">
-                        @Html.LabelFor(m => m.PhanTramKM, new { @class = "col-md-2 control-label" })
-                        <div class="col-md-2">
-                            @Html.TextBoxFor(m => m.PhanTramKM, new { @class = "form-control", type = "number" }) 
+                        <div class="col-md-4 col-md-offset-2">
+                            @Html.LabelFor(m => m.PhanTramKM, new { @class = "control-label" })
+                            @Html.TextBoxFor(m => m.PhanTramKM, new { @class = "form-control", type = "number", placeholder = "0%" })
                             @Html.ValidationMessageFor(m => m.PhanTramKM, "", new { @class = "text-danger" })
+                        </div>                        
+                        <div class="col-md-4">
+                            <label class="control-label">Giá khuyến mại:</label>
+                            <input type="number" name="GiaKM" id="GiaKM" class="form-control" />
                         </div>
-                        <div class="col-md-3">
-                            <span>%</span>
-                        </div>
+                        
                     </div>
 
                     <div class="form-group">
@@ -253,6 +255,7 @@
         if ($('#LoaiHang').val() === '1') {
             $('#ngaythangkhuyenmai').fadeIn();
             $('#phantramkhuyenmai').fadeIn();
+            $('#GiaKM').fadeIn();
             $('#NgayBDKM').attr({ 'required': 'Vui lòng nhập ngày bắt đầu', 'data-val-required': 'Vui lòng nhập ngày bắt đầu' });
             $('#NgayKTKM').attr({ 'required': 'Vui lòng nhập ngày kết thúc', 'data-val-required': 'Vui lòng nhập ngày kết thúc' });
             $('#PhanTramKM').attr({ 'required': 'Vui lòng nhập phần trăm khuyến mại', 'data-val-required': 'Vui lòng nhập phần trăm khuyến mại' });
@@ -340,12 +343,14 @@
                 if ($(this).val() !== "" && $(this).val() === '1') {
                     $('#ngaythangkhuyenmai').fadeIn();
                     $('#phantramkhuyenmai').fadeIn();
+                    $('#GiaKM').fadeIn();
                     $('#NgayBDKM').attr({ 'required': 'Vui lòng nhập ngày bắt đầu', 'data-val-required': 'Vui lòng nhập ngày bắt đầu' });
                     $('#NgayKTKM').attr({ 'required': 'Vui lòng nhập ngày kết thúc', 'data-val-required': 'Vui lòng nhập ngày kết thúc' });
                     $('#PhanTramKM').attr({ 'required': 'Vui lòng nhập phần trăm khuyến mại', 'data-val-required': 'Vui lòng nhập phần trăm khuyến mại' });
                 } else {
                     $('#ngaythangkhuyenmai').fadeOut();
                     $('#phantramkhuyenmai').fadeOut();
+                    $('#GiaKM').fadeOut();
                     $('#NgayBDKM').val('').removeAttr('required').removeAttr('data-val-required');
                     $('#NgayKTKM').val('').removeAttr('required').removeAttr('data-val-required');
                     $('#PhanTramKM').val('').removeAttr('required').removeAttr('data-val-required');
@@ -380,26 +385,29 @@
                 },
                 init: function () {
                     this.on("thumbnail", function (file) {
-                        if (file.width - file.height < 10 || file.width - file.height > -10) {
-                            file.acceptDimensions();
-                            $('#divanhdaidien').append('<div class="loaded">' +
+                        //if (file.width - file.height < 10 || file.width - file.height > -10) {
+                        //    file.acceptDimensions();
+                        //    $('#divanhdaidien').append('<div class="loaded">' +
+                        //            '<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>' +
+                        //        '</div>');
+                        //}
+                        //else {
+                        //    file.rejectDimensions();
+                        //}
+                        $('#divanhdaidien').append('<div class="loaded">' +
                                     '<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>' +
                                 '</div>');
-                        }
-                        else {
-                            file.rejectDimensions();
-                        }
                     })
                 },
                 complete: function () {
                     $('#divanhdaidien').children('.loaded').remove();
                 },
-                accept: function (file, done) {
-                    file.rejectDimensions = function () {
-                        done("Vui lòng chọn ảnh có chiều rộng và chiều cao bằng nhau.");
-                    };
-                    file.acceptDimensions = done;
-                },
+                //accept: function (file, done) {
+                //    file.rejectDimensions = function () {
+                //        done("Vui lòng chọn ảnh có chiều rộng và chiều cao bằng nhau.");
+                //    };
+                //    file.acceptDimensions = done;
+                //},
                 error: function (file, response) {
                     alert(response);
                     this.removeFile(file);
@@ -437,25 +445,28 @@
                 },
                 init: function () {
                     this.on("thumbnail", function (file) {
-                        var w = file.width;
-                        var h = file.height;
-                        if (Math.round((w / 17) * 9) < h && h < Math.round((w / 15) * 9)) {
-                            file.acceptDimensions();
-                            $('#divanh1').append('<div class="loaded">' +
+                        //var w = file.width;
+                        //var h = file.height;
+                        //if (Math.round((w / 17) * 9) < h && h < Math.round((w / 15) * 9)) {
+                        //    file.acceptDimensions();
+                        //    $('#divanh1').append('<div class="loaded">' +
+                        //            '<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>' +
+                        //        '</div>');
+                        //}
+                        //else {
+                        //    file.rejectDimensions();
+                        //}
+                        $('#divanh1').append('<div class="loaded">' +
                                     '<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>' +
                                 '</div>');
-                        }
-                        else {
-                            file.rejectDimensions();
-                        }
                     })
                 },
-                accept: function (file, done) {
-                    file.rejectDimensions = function () {
-                        done("Vui lòng chọn ảnh có tỷ lệ 16/9.");
-                    };
-                    file.acceptDimensions = done;
-                },
+                //accept: function (file, done) {
+                //    file.rejectDimensions = function () {
+                //        done("Vui lòng chọn ảnh có tỷ lệ 16/9.");
+                //    };
+                //    file.acceptDimensions = done;
+                //},
                 complete: function () {
                     $('#divanh1').children('.loaded').remove();
                 },
@@ -496,28 +507,31 @@
                 },
                 init: function () {
                     this.on("thumbnail", function (file) {
-                        var w = file.width;
-                        var h = file.height;
-                        if (Math.round((w / 17) * 9) < h && h < Math.round((w / 15) * 9)) {
-                            file.acceptDimensions();
-                            $('#divanh2').append('<div class="loaded">' +
+                        //var w = file.width;
+                        //var h = file.height;
+                        //if (Math.round((w / 17) * 9) < h && h < Math.round((w / 15) * 9)) {
+                        //    file.acceptDimensions();
+                        //    $('#divanh2').append('<div class="loaded">' +
+                        //            '<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>' +
+                        //        '</div>');
+                        //}
+                        //else {
+                        //    file.rejectDimensions();
+                        //}
+                        $('#divanh2').append('<div class="loaded">' +
                                     '<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>' +
                                 '</div>');
-                        }
-                        else {
-                            file.rejectDimensions();
-                        }
                     })
                 },
                 complete: function () {
                     $('#divanh2').children('.loaded').remove();
                 },
-                accept: function (file, done) {
-                    file.rejectDimensions = function () {
-                        done("Vui lòng chọn ảnh có tỷ lệ 16/9.");
-                    };
-                    file.acceptDimensions = done;
-                },
+                //accept: function (file, done) {
+                //    file.rejectDimensions = function () {
+                //        done("Vui lòng chọn ảnh có tỷ lệ 16/9.");
+                //    };
+                //    file.acceptDimensions = done;
+                //},
                 error: function (file, response) {
                     alert(response);
                     this.removeFile(file);
@@ -555,25 +569,28 @@
                 },
                 init: function () {
                     this.on("thumbnail", function (file) {
-                        var w = file.width;
-                        var h = file.height;
-                        if (Math.round((w / 17) * 9) < h && h < Math.round((w / 15) * 9)) {
-                            file.acceptDimensions();
-                            $('#divanh3').append('<div class="loaded">' +
+                        //var w = file.width;
+                        //var h = file.height;
+                        //if (Math.round((w / 17) * 9) < h && h < Math.round((w / 15) * 9)) {
+                        //    file.acceptDimensions();
+                        //    $('#divanh3').append('<div class="loaded">' +
+                        //            '<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>' +
+                        //        '</div>');
+                        //}
+                        //else {
+                        //    file.rejectDimensions();
+                        //}
+                        $('#divanh3').append('<div class="loaded">' +
                                     '<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>' +
                                 '</div>');
-                        }
-                        else {
-                            file.rejectDimensions();
-                        }
                     })
                 },
-                accept: function (file, done) {
-                    file.rejectDimensions = function () {
-                        done("Vui lòng chọn ảnh có tỷ lệ 16/9.");
-                    };
-                    file.acceptDimensions = done;
-                },
+                //accept: function (file, done) {
+                //    file.rejectDimensions = function () {
+                //        done("Vui lòng chọn ảnh có tỷ lệ 16/9.");
+                //    };
+                //    file.acceptDimensions = done;
+                //},
                 complete: function () {
                     $('#divanh3>i').children('.loaded').remove();
                 },
@@ -614,28 +631,31 @@
                 },
                 init: function () {
                     this.on("thumbnail", function (file) {
-                        var w = file.width;
-                        var h = file.height;
-                        if (Math.round((w / 17) * 9) < h && h < Math.round((w / 15) * 9)) {
-                            file.acceptDimensions();
-                            $('#divanh4').append('<div class="loaded">' +
+                        //var w = file.width;
+                        //var h = file.height;
+                        //if (Math.round((w / 17) * 9) < h && h < Math.round((w / 15) * 9)) {
+                        //    file.acceptDimensions();
+                        //    $('#divanh4').append('<div class="loaded">' +
+                        //            '<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>' +
+                        //        '</div>');
+                        //}
+                        //else {
+                        //    file.rejectDimensions();
+                        //}
+                        $('#divanh4').append('<div class="loaded">' +
                                     '<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>' +
                                 '</div>');
-                        }
-                        else {
-                            file.rejectDimensions();
-                        }
                     })
                 },
                 complete: function () {
                     $('#divanh4').children('.loaded').remove();
                 },
-                accept: function (file, done) {
-                    file.rejectDimensions = function () {
-                        done("Vui lòng chọn ảnh có tỷ lệ 16/9.");
-                    };
-                    file.acceptDimensions = done;
-                },
+                //accept: function (file, done) {
+                //    file.rejectDimensions = function () {
+                //        done("Vui lòng chọn ảnh có tỷ lệ 16/9.");
+                //    };
+                //    file.acceptDimensions = done;
+                //},
                 error: function (file, response) {
                     alert(response);
                     this.removeFile(file);
@@ -643,7 +663,15 @@
                 HiddenFilesPath: 'body'
 
             });
-
+            
+            $('#GiaKM').on('change', function() {
+                if ($('#GiaKM').val() !== "" && $('#GiaCa').val() != "") {
+                    var giakm = $('#GiaKM').val();
+                    var giagoc = $('#GiaCa').val();
+                    var km = (giakm / giagoc) * 100;
+                    $('#PhanTramKM').val(100-Math.round(km));
+                }
+            })            
 
 
         });

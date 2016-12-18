@@ -426,28 +426,31 @@
                 },
                 init: function () {
                     this.on("thumbnail", function (file) {
-                        var w = file.width;
-                        var h = file.height;
-                        if (Math.round((w / 17) * 9) < h && h < Math.round((w / 15) * 9)) {
-                            file.acceptDimensions();
-                            $('#divanh1').append('<div class="loaded">' +
+                        //var w = file.width;
+                        //var h = file.height;
+                        //if (Math.round((w / 17) * 9) < h && h < Math.round((w / 15) * 9)) {
+                        //    file.acceptDimensions();
+                        //    $('#divanh1').append('<div class="loaded">' +
+                        //           '<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>' +
+                        //       '</div>');
+                        //}
+                        //else {
+                        //    file.rejectDimensions();
+                        //}
+                        $('#divanh1').append('<div class="loaded">' +
                                    '<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>' +
                                '</div>');
-                        }
-                        else {
-                            file.rejectDimensions();
-                        }
                     })
                 },
                 complete: function () {
                     $('#divanh1').children('.loaded').remove();
                 },
-                accept: function (file, done) {
-                    file.rejectDimensions = function () {
-                        done("Vui lòng chọn ảnh có tỷ lệ 16/9.");
-                    };
-                    file.acceptDimensions = done;
-                },
+                //accept: function (file, done) {
+                //    file.rejectDimensions = function () {
+                //        done("Vui lòng chọn ảnh có tỷ lệ 16/9.");
+                //    };
+                //    file.acceptDimensions = done;
+                //},
                 error: function (file, response) {
                     alert(response);
                     this.removeFile(file);
@@ -485,28 +488,28 @@
                 },
                 init: function () {
                     this.on("thumbnail", function (file) {
-                        var w = file.width;
-                        var h = file.height;
-                        if (Math.round((w / 17) * 9) < h && h < Math.round((w / 15) * 9)) {
-                            file.acceptDimensions();
-                            $('#divanh2').append('<div class="loaded">' +
-                                   '<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>' +
-                               '</div>');
-                        }
-                        else {
-                            file.rejectDimensions();
-                        }
+                        //var w = file.width;
+                        //var h = file.height;
+                        //if (Math.round((w / 17) * 9) < h && h < Math.round((w / 15) * 9)) {
+                        //    file.acceptDimensions();
+                        //    $('#divanh2').append('<div class="loaded">' +
+                        //           '<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>' +
+                        //       '</div>');
+                        //}
+                        //else {
+                        //    file.rejectDimensions();
+                        //}
                     })
                 },
                 complete: function () {
                     $('#divanh2').children('.loaded').remove();
                 },
-                accept: function (file, done) {
-                    file.rejectDimensions = function () {
-                        done("Vui lòng chọn ảnh có tỷ lệ 16/9.");
-                    };
-                    file.acceptDimensions = done;
-                },
+                //accept: function (file, done) {
+                //    file.rejectDimensions = function () {
+                //        done("Vui lòng chọn ảnh có tỷ lệ 16/9.");
+                //    };
+                //    file.acceptDimensions = done;
+                //},
                 error: function (file, response) {
                     alert(response);
                     this.removeFile(file);
@@ -547,25 +550,28 @@
                 },
                 init: function () {
                     this.on("thumbnail", function (file) {
-                        var w = file.width;
-                        var h = file.height;
-                        if (Math.round((w / 17) * 9) < h && h < Math.round((w / 15) * 9)) {
-                            file.acceptDimensions();
-                            $('#divanh3').append('<div class="loaded">' +
+                        //var w = file.width;
+                        //var h = file.height;
+                        //if (Math.round((w / 17) * 9) < h && h < Math.round((w / 15) * 9)) {
+                        //    file.acceptDimensions();
+                        //    $('#divanh3').append('<div class="loaded">' +
+                        //            '<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>' +
+                        //        '</div>');
+                        //}
+                        //else {
+                        //    file.rejectDimensions();
+                        //}
+                        $('#divanh3').append('<div class="loaded">' +
                                     '<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>' +
                                 '</div>');
-                        }
-                        else {
-                            file.rejectDimensions();
-                        }
                     })
                 },
-                accept: function (file, done) {
-                    file.rejectDimensions = function () {
-                        done("Vui lòng chọn ảnh có tỷ lệ 16/9.");
-                    };
-                    file.acceptDimensions = done;
-                },
+                //accept: function (file, done) {
+                //    file.rejectDimensions = function () {
+                //        done("Vui lòng chọn ảnh có tỷ lệ 16/9.");
+                //    };
+                //    file.acceptDimensions = done;
+                //},
                 error: function (file, response) {
                     alert(response);
                     this.removeFile(file);
@@ -603,28 +609,31 @@
                 },
                 init: function () {
                     this.on("thumbnail", function (file) {
-                        var w = file.width;
-                        var h = file.height;
-                        if (Math.round((w / 17) * 9) < h && h < Math.round((w / 15) * 9)) {
-                            file.acceptDimensions();
-                            $('#divanh4').append('<div class="loaded">' +
+                        //var w = file.width;
+                        //var h = file.height;
+                        //if (Math.round((w / 17) * 9) < h && h < Math.round((w / 15) * 9)) {
+                        //    file.acceptDimensions();
+                        //    $('#divanh4').append('<div class="loaded">' +
+                        //            '<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>' +
+                        //        '</div>');
+                        //}
+                        //else {
+                        //    file.rejectDimensions();
+                        //}
+                        $('#divanh4').append('<div class="loaded">' +
                                     '<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>' +
                                 '</div>');
-                        }
-                        else {
-                            file.rejectDimensions();
-                        }
                     })
                 },
                 complete: function () {
                     $('#divanh4').children('.loaded').remove();
                 },
-                accept: function (file, done) {
-                    file.rejectDimensions = function () {
-                        done("Vui lòng chọn ảnh có tỷ lệ 16/9.");
-                    };
-                    file.acceptDimensions = done;
-                },
+                //accept: function (file, done) {
+                //    file.rejectDimensions = function () {
+                //        done("Vui lòng chọn ảnh có tỷ lệ 16/9.");
+                //    };
+                //    file.acceptDimensions = done;
+                //},
                 error: function (file, response) {
                     alert(response);
                     this.removeFile(file);
