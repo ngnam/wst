@@ -69,19 +69,23 @@ namespace WebSieuThi.Controllers
                 if (model.MaMatHangChung != null && model.HeThongId != default(int))
                 {
                     _newMhc.MaMatHangChung = model.HeThongId.ToString() + "-" + model.MaMatHangChung;
+                    ViewBag.luuMaMatHangChung = model.MaMatHangChung;
                 }
                 string sghid = model.strGianHangChung != null ? model.strGianHangChung.Split('_')[0].ToString() : null;
                 string mgh = model.strGianHangChung != null ? model.strGianHangChung.Split('_')[1].ToString() : null;
                 _newMhc.GianHangChungId = sghid != null ? Convert.ToInt32(sghid) : (int?)null;
+                ViewBag.luugianhang = model.strGianHangChung;
+                ViewBag.luumota = "Đang cập nhật";
                 _newMhc.MaGianHangChung = mgh ?? null;
                 _newMhc.LoaiHang = model.LoaiHang ?? null;
                 _newMhc.TrangThai = model.TrangThai ?? null;
+                ViewBag.luuTrangThai = model.TrangThai;
                 _newMhc.PhanTramKM = model.PhanTramKM ?? null;
                 _newMhc.NgayBDKM = model.NgayBDKM ?? null;
                 _newMhc.NgayKTKM = model.NgayKTKM ?? null;
                 ViewBag.NgayBDKM = model.NgayBDKM ?? null;
                 ViewBag.NgayKTKM = model.NgayKTKM ?? null;
-                ViewBag.LoaiHang = model.LoaiHang ?? null;
+                ViewBag.luuLoaiHang = model.LoaiHang ?? null;
                 _newMhc.AnhDaiDien = model.AnhDaiDien ?? null;
                 _newMhc.MoTa = model.MoTa ?? null;
                 string _dsanh = "";
