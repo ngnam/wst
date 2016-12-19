@@ -39,6 +39,7 @@ namespace WebSieuThi.Controllers
             ViewBag.hethongid = user.HeThongId;
             ViewBag.trangthaihang = ListTrangThaiHang();
             ViewBag.loaihang = ListLoaiHang();
+            //ViewBag.luumota = "Đang cập nhật";
             return View();
         }
 
@@ -75,7 +76,7 @@ namespace WebSieuThi.Controllers
                 string mgh = model.strGianHangChung != null ? model.strGianHangChung.Split('_')[1].ToString() : null;
                 _newMhc.GianHangChungId = sghid != null ? Convert.ToInt32(sghid) : (int?)null;
                 ViewBag.luugianhang = model.strGianHangChung;
-                ViewBag.luumota = "Đang cập nhật";
+               
                 _newMhc.MaGianHangChung = mgh ?? null;
                 _newMhc.LoaiHang = model.LoaiHang ?? null;
                 _newMhc.TrangThai = model.TrangThai ?? null;

@@ -11,20 +11,19 @@
         Model.NgayKTKM = ViewBag.NgayKTKM;
     }
 
-    if (ViewBag.mota != null)
-    {
-        Model.MoTa = ViewBag.luumota;
-    }
+    
     if (ViewBag.luuMaMatHangChung != null)
     {
         Model.MaMatHangChung = ViewBag.luuMaMatHangChung;
     }
 }
 
+
 @section styles {
     @Styles.Render("~/Content/dropzonescss")
 }
 <script src="~/Scripts/ckeditor/ckeditor.js"></script>
+
 <div class="row">
     <div class="col-lg-12">
         <div class="page-header">
@@ -191,7 +190,10 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.MoTa, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.TextAreaFor(model => model.MoTa, htmlAttributes: new { @class = "form-control", type = "number", row = 10 })
+                            <textarea id="Mota" name="Mota" class="form-control" rows="10">
+                               Đang cập nhật
+                            </textarea>
+                            @*@Html.TextAreaFor(model => model.MoTa, htmlAttributes: new { @class = "form-control", row = 10 })*@
                         </div>
                     </div>
 
