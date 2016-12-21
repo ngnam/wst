@@ -117,29 +117,29 @@ namespace WebSieuThi.Controllers
                 await db.SaveChangesAsync();
 
                 // save a copy gianhangnew to gianhang cua tat ca sieuthi trong hethong.
-                try
-                {
-                    var sieuthiid = userLogin.SieuThis.Select(x => x.SieuThiId).ToArray();
-                    if (sieuthiid.Length > 0)
-                    {
-                        foreach (var item in sieuthiid)
-                        {
-                            GianHang _ghr = new GianHang();
-                            _ghr.MaGianHang = _newGhc.MaGianHangChung;
-                            _ghr.TenGianHang = _newGhc.TenGianHangChung;
-                            _ghr.AnhGianHang = _newGhc.AnhGianHang;
-                            _ghr.SieuThiId = item;
-                            db.GianHangs.Add(_ghr);
-                            await db.SaveChangesAsync();
-                        }
-                    }
+                //try
+                //{
+                //    var sieuthiid = userLogin.SieuThis.Select(x => x.SieuThiId).ToArray();
+                //    if (sieuthiid.Length > 0)
+                //    {
+                //        foreach (var item in sieuthiid)
+                //        {
+                //            GianHang _ghr = new GianHang();
+                //            _ghr.MaGianHang = _newGhc.MaGianHangChung;
+                //            _ghr.TenGianHang = _newGhc.TenGianHangChung;
+                //            _ghr.AnhGianHang = _newGhc.AnhGianHang;
+                //            _ghr.SieuThiId = item;
+                //            db.GianHangs.Add(_ghr);
+                //            await db.SaveChangesAsync();
+                //        }
+                //    }
                     
 
-                }
-                catch (Exception ex)
-                {
-                    Helpers.Config.SaveToLog(ex.ToString());
-                }
+                //}
+                //catch (Exception ex)
+                //{
+                //    Helpers.Config.SaveToLog(ex.ToString());
+                //}
 
                 TempData["Updated"] = "Đã thêm mới gian hàng " + model.TenGianHangChung ?? "" + " vào hệ thống";
             }
